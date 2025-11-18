@@ -19,7 +19,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 DOMAIN=$1
-EMAIL="admin@${DOMAIN}"
+EMAIL="info@${DOMAIN}"
 
 echo -e "${GREEN}Setting up SSL for ${DOMAIN}...${NC}\n"
 
@@ -66,14 +66,15 @@ cp /etc/letsencrypt/live/$DOMAIN/privkey.pem /opt/brivaro/nginx/ssl/
 
 # Update nginx config to enable HTTPS
 echo -e "${GREEN}Enabling HTTPS in Nginx config...${NC}"
-sed -i 's/# server_name brivaro.de/server_name brivaro.de/' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/#     return 301/    return 301/' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/# server {/server {/g' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/#     listen/    listen/g' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/#     ssl/    ssl/g' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/#     add_header/    add_header/g' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/#     location/    location/g' /opt/brivaro/nginx/conf.d/brivaro.conf
-sed -i 's/# }/}/g' /opt/brivaro/nginx/conf.d/brivaro.conf
+
+# Backup original
+cp /opt/brivaro/nginx/conf.d/brivaro.conf /opt/brivaro/nginx/conf.d/brivaro.conf.bak
+
+# Replace the HTTP server block to add redirect
+sed -i '/# Vorerst: Proxy to App/,/}/c\    # Redirect to HTTPS\n    location / {\n        return 301 https://$server_name$request_uri;\n    }' /opt/brivaro/nginx/conf.d/brivaro.conf
+
+# Uncomment HTTPS block - remove all "# " at start of lines in HTTPS section
+sed -i '/# HTTPS Server/,/# }$/s/^# //' /opt/brivaro/nginx/conf.d/brivaro.conf
 
 # Setup auto-renewal
 echo -e "${GREEN}Setting up auto-renewal...${NC}"
@@ -85,8 +86,16 @@ EOF
 echo -e "${GREEN}Starting Nginx with SSL...${NC}"
 docker compose up -d nginx
 
-echo -e "\n${GREEN}✓ SSL Setup Complete!${NC}\n"
-echo -e "Your site is now available at:"
-echo -e "  ${GREEN}https://$DOMAIN${NC}"
-echo -e "  ${GREEN}https://www.$DOMAIN${NC}\n"
-echo -e "Certificate auto-renews every 3am.\n"
+# Wait and test
+sleep 3
+if docker compose ps nginx | grep -q "Up"; then
+    echo -e "\n${GREEN}✓ SSL Setup Complete!${NC}\n"
+    echo -e "Your site is now available at:"
+    echo -e "  ${GREEN}https://$DOMAIN${NC}"
+    echo -e "  ${GREEN}https://www.$DOMAIN${NC}\n"
+    echo -e "Certificate auto-renews every 3am.\n"
+else
+    echo -e "\n${RED}✗ Nginx failed to start!${NC}"
+    echo -e "Check logs: docker compose logs nginx"
+    exit 1
+fi

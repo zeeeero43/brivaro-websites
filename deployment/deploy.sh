@@ -5,65 +5,78 @@
 # Deploy updates to production server
 #
 # USAGE:
-#   Local: ./deploy.sh
-#   Or from anywhere: ssh root@your-server 'cd /opt/brivaro && ./deploy.sh'
+#   On VPS: cd /root/brivaro-websites/deployment && ./deploy.sh
 ################################################################################
 
 set -e
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${GREEN}Deploying Brivaro...${NC}\n"
 
-cd /opt/brivaro/app
+# Navigate to project root
+cd /root/brivaro-websites
 
 # Backup current version
 echo -e "${YELLOW}[1/5] Creating backup...${NC}"
 BACKUP_DIR="/opt/brivaro/backups/$(date +%Y%m%d_%H%M%S)"
 mkdir -p $BACKUP_DIR
-cp -r /opt/brivaro/app $BACKUP_DIR/ 2>/dev/null || true
+tar -czf $BACKUP_DIR/brivaro-backup.tar.gz -C /root brivaro-websites 2>/dev/null || true
 echo -e "${GREEN}✓ Backup created: $BACKUP_DIR${NC}\n"
 
 # Pull latest code
 echo -e "${YELLOW}[2/5] Pulling latest code...${NC}"
+git fetch origin
+CURRENT_COMMIT=$(git rev-parse HEAD)
 git pull origin main
-echo -e "${GREEN}✓ Code updated${NC}\n"
+NEW_COMMIT=$(git rev-parse HEAD)
 
-# Build new version
-echo -e "${YELLOW}[3/5] Building application...${NC}"
+if [ "$CURRENT_COMMIT" == "$NEW_COMMIT" ]; then
+    echo -e "${YELLOW}Already up to date. No deployment needed.${NC}\n"
+    exit 0
+fi
+
+echo -e "${GREEN}✓ Code updated: $CURRENT_COMMIT -> $NEW_COMMIT${NC}\n"
+
+# Restart app container (will rebuild via npm ci)
+echo -e "${YELLOW}[3/5] Restarting application...${NC}"
 cd /opt/brivaro
-docker compose build app
-echo -e "${GREEN}✓ Build complete${NC}\n"
+docker compose restart app
+echo -e "${GREEN}✓ Container restarted${NC}\n"
 
-# Restart services
-echo -e "${YELLOW}[4/5] Restarting services...${NC}"
-docker compose up -d app
-echo -e "${GREEN}✓ Services restarted${NC}\n"
+# Wait for container to be healthy
+echo -e "${YELLOW}[4/5] Waiting for app to be ready...${NC}"
+for i in {1..30}; do
+    if docker compose ps app | grep -q "healthy"; then
+        echo -e "${GREEN}✓ App is healthy${NC}\n"
+        break
+    fi
+    if [ $i -eq 30 ]; then
+        echo -e "${RED}✗ App failed to become healthy${NC}"
+        docker compose logs --tail=50 app
+        exit 1
+    fi
+    sleep 2
+done
 
 # Health check
-echo -e "${YELLOW}[5/5] Running health check...${NC}"
-sleep 5
+echo -e "${YELLOW}[5/5] Final health check...${NC}"
+sleep 3
 
-if docker compose ps | grep -q "app.*Up"; then
+if docker compose ps app | grep -q "Up"; then
     echo -e "${GREEN}✓ Deployment successful!${NC}\n"
 
     # Show logs
     echo -e "${YELLOW}Recent logs:${NC}"
     docker compose logs --tail=20 app
 
-    echo -e "\n${GREEN}Access your site at: https://brivaro.de${NC}\n"
+    echo -e "\n${GREEN}🎉 Deployment complete!${NC}"
+    echo -e "Access your site at: ${GREEN}https://brivaro.de${NC}\n"
 else
     echo -e "${RED}✗ Deployment failed!${NC}"
-    echo -e "${YELLOW}Rolling back...${NC}"
-
-    # Rollback
-    rm -rf /opt/brivaro/app
-    cp -r $BACKUP_DIR/app /opt/brivaro/
-    docker compose up -d app
-
-    echo -e "${RED}Rolled back to previous version${NC}"
-    docker compose logs --tail=50 app
+    echo -e "${YELLOW}Check logs with: docker compose logs -f app${NC}\n"
     exit 1
 fi
