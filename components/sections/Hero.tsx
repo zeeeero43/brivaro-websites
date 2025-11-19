@@ -7,7 +7,7 @@ import { AnimatedCounter } from "@/components/animations/AnimatedCounter"
 
 export function Hero() {
   const stats = [
-    { value: 15000, suffix: "+", label: "Generierte Leads" },
+    { value: 500, suffix: "k+", label: "Generierte Leads" },
     { value: 95, suffix: "%+", label: "Zufriedenheit" },
     { value: 9, suffix: "%", label: "Response-Rate" },
   ]
