@@ -245,15 +245,27 @@ mkdir -p /etc/nginx/sites-available
 mkdir -p /etc/nginx/sites-enabled
 
 cat > /etc/nginx/sites-available/brivaro << 'NGINX_EOF'
-# Health check endpoint
+# Default server - blocks all unknown domains for security
 server {
     listen 80 default_server;
+    listen [::]:80 default_server;
     server_name _;
 
+    # Health check endpoint
     location /health {
         access_log off;
         return 200 "healthy\n";
         add_header Content-Type text/plain;
+    }
+
+    # Let's Encrypt ACME Challenge (needed for SSL setup)
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    # Block everything else - prevents domain hijacking
+    location / {
+        return 444;  # Close connection without response
     }
 }
 
