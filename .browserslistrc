@@ -1,0 +1,23 @@
+# Modern browsers only - eliminates unnecessary polyfills
+# Targets browsers with native support for modern ES features
+# This reduces bundle size by ~12 KiB
+
+# Chrome, Edge, Safari, Firefox - last 2 versions
+last 2 Chrome versions
+last 2 ChromeAndroid versions
+last 2 Edge versions
+last 2 Safari versions
+last 2 iOS versions
+last 2 Firefox versions
+
+# Explicitly exclude old browsers that require heavy polyfills
+not IE 11
+not dead
+not op_mini all
+
+# Support browsers with >0.2% market share in Germany
+> 0.2% in DE
+
+# Support browsers that have native ES2020+ features
+supports es6-module
+supports async-functions

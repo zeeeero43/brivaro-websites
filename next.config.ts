@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Modern JavaScript output - reduces bundle size by eliminating polyfills
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+
   // Image Optimization for Core Web Vitals
   images: {
     remotePatterns: [

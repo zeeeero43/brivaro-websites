@@ -7,7 +7,7 @@ import { StructuredData } from "@/components/seo/StructuredData";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "optional", // Optimized: prevents layout shift
+  display: "swap", // Optimized: faster LCP, prevents invisible text
   preload: true, // Faster font loading
   adjustFontFallback: true, // Metric-compatible fallback
 });
@@ -102,6 +102,9 @@ export default function RootLayout({
       <head>
         {/* Resource Hints for PageSpeed */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cal.com" />
+        <link rel="preconnect" href="https://app.cal.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body
