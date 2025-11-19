@@ -31,44 +31,30 @@ Nach dem Setup hast du:
 ssh root@DEINE_VPS_IP
 ```
 
-### 2. Führe Setup-Script aus
+### 2. Clone Repository
 ```bash
-# Download Setup Script
-wget https://raw.githubusercontent.com/DEIN_REPO/brivaro-websites/main/deployment/setup-vps.sh
+cd ~
+git clone https://github.com/DEIN_USERNAME/brivaro-websites.git
+cd brivaro-websites/deployment
+```
 
-# Oder: Upload via SCP
-# Lokal: scp deployment/setup-vps.sh root@DEINE_VPS_IP:/root/
-
-# Executable machen
-chmod +x setup-vps.sh
-
-# Ausführen (dauert ~5 Minuten)
+### 3. Führe Setup-Script aus
+```bash
+chmod +x *.sh
 ./setup-vps.sh
 ```
 
-### 3. Code hochladen
-
-**Option A: Git (Empfohlen)**
-```bash
-cd /opt/brivaro/app
-git clone https://github.com/DEIN_USERNAME/brivaro-websites.git .
-chown -R brivaro:brivaro /opt/brivaro/app
-```
-
-**Option B: SCP (von deinem Rechner)**
-```bash
-# Lokal ausführen:
-rsync -avz --exclude 'node_modules' --exclude '.next' --exclude '.git' \
-  /home/kaan/brivaro-websites/ root@DEINE_VPS_IP:/opt/brivaro/app/
-```
+Das Script:
+- Installiert Node.js 20, nginx, fail2ban, ufw
+- Erstellt systemd Service für die App
+- Setzt Permissions für brivaro User
+- Nutzt automatisch `~/brivaro-websites` als App-Root
 
 ### 4. Dependencies installieren und bauen
 ```bash
-su - brivaro
-cd /opt/brivaro/app
-npm ci --production
+cd ~/brivaro-websites
+npm install
 npm run build
-exit
 ```
 
 ### 5. Service starten
@@ -98,8 +84,7 @@ Warte 5-10 Minuten bis DNS propagiert.
 
 ### 8. SSL aktivieren
 ```bash
-cd /opt/brivaro/app/deployment
-chmod +x setup-ssl.sh
+cd ~/brivaro-websites/deployment
 ./setup-ssl.sh brivaro.de
 ```
 
@@ -218,7 +203,7 @@ npm --version
 ### Option 1: Automatisches Deployment (Empfohlen)
 
 ```bash
-cd /opt/brivaro/app/deployment
+cd ~/brivaro-websites/deployment
 ./deploy.sh
 ```
 
@@ -234,21 +219,15 @@ Das Script:
 ### Option 2: Manuell
 
 ```bash
-# Als brivaro User
-su - brivaro
-cd /opt/brivaro/app
-
 # Pull Code
+cd ~/brivaro-websites
 git pull origin main
 
 # Install (nur wenn package.json geändert)
-npm ci --production
+npm install
 
 # Build
 npm run build
-
-# Exit zurück zu root
-exit
 
 # Service neu starten
 systemctl restart brivaro
@@ -582,17 +561,18 @@ Bei Problemen:
 
 ```bash
 # Quick Command Reference
-ssh root@VPS_IP                      # Connect
-./setup-vps.sh                       # Initial setup
-cd /opt/brivaro/app
-git clone https://... .              # Clone repo
-su - brivaro
-npm ci --production && npm run build # Build
-exit
-systemctl start brivaro              # Start service
-journalctl -u brivaro -f             # View logs
-./deployment/setup-ssl.sh brivaro.de # Setup SSL
-./deployment/deploy.sh               # Deploy updates
+ssh root@VPS_IP                       # Connect
+cd ~
+git clone https://github.com/USER/brivaro-websites.git
+cd brivaro-websites/deployment
+./setup-vps.sh                        # Initial setup
+cd ~/brivaro-websites
+npm install && npm run build          # Build
+systemctl start brivaro               # Start service
+journalctl -u brivaro -f              # View logs
+cd ~/brivaro-websites/deployment
+./setup-ssl.sh brivaro.de             # Setup SSL
+./deploy.sh                           # Deploy updates
 ```
 
 **Happy Deploying! 🎉**

@@ -201,15 +201,24 @@ echo -e "${GREEN}✓ Auto-updates enabled${NC}"
 ################################################################################
 echo -e "${GREEN}[8/8] Setting up application...${NC}"
 
-# Create dedicated user
-useradd -r -s /bin/bash -d /opt/brivaro -m brivaro || true
+# Detect app directory (parent of deployment folder)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+APP_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
 
-# Create directory structure
-mkdir -p /opt/brivaro/{app,backups,logs}
-chown -R brivaro:brivaro /opt/brivaro
+echo -e "${GREEN}Detected app directory: $APP_DIR${NC}"
+
+# Create dedicated user
+useradd -r -s /bin/bash -m brivaro || true
+
+# Create backup directory
+mkdir -p /var/backups/brivaro
+chown -R brivaro:brivaro /var/backups/brivaro
+
+# Set ownership of app directory
+chown -R brivaro:brivaro "$APP_DIR"
 
 # Create systemd service file
-cat > /etc/systemd/system/brivaro.service << 'SERVICE_EOF'
+cat > /etc/systemd/system/brivaro.service << SERVICE_EOF
 [Unit]
 Description=Brivaro Next.js Application
 After=network.target
@@ -217,7 +226,7 @@ After=network.target
 [Service]
 Type=simple
 User=brivaro
-WorkingDirectory=/opt/brivaro/app
+WorkingDirectory=$APP_DIR
 Environment="NODE_ENV=production"
 Environment="PORT=3000"
 ExecStart=/usr/bin/npm start
@@ -405,28 +414,22 @@ echo -e "${GREEN}╚════════════════════
 
 echo -e "${YELLOW}Next Steps:${NC}\n"
 
-echo -e "1. ${GREEN}Clone your repository:${NC}"
-echo -e "   cd /opt/brivaro/app"
-echo -e "   git clone https://github.com/yourusername/brivaro-websites.git ."
-echo -e "   chown -R brivaro:brivaro /opt/brivaro/app\n"
-
-echo -e "2. ${GREEN}Install dependencies and build:${NC}"
-echo -e "   su - brivaro"
-echo -e "   cd /opt/brivaro/app"
-echo -e "   npm ci --production"
+echo -e "1. ${GREEN}Install dependencies and build:${NC}"
+echo -e "   cd $APP_DIR"
+echo -e "   npm install"
 echo -e "   npm run build\n"
 
-echo -e "3. ${GREEN}Start the application:${NC}"
-echo -e "   exit  # Exit from brivaro user"
+echo -e "2. ${GREEN}Start the application:${NC}"
 echo -e "   systemctl start brivaro"
 echo -e "   systemctl enable brivaro\n"
 
-echo -e "4. ${GREEN}Check status:${NC}"
+echo -e "3. ${GREEN}Check status:${NC}"
 echo -e "   systemctl status brivaro"
 echo -e "   journalctl -u brivaro -f\n"
 
-echo -e "5. ${GREEN}Setup SSL (after DNS points to server):${NC}"
-echo -e "   ./deployment/setup-ssl.sh brivaro.de\n"
+echo -e "4. ${GREEN}Setup SSL (after DNS points to server):${NC}"
+echo -e "   cd $APP_DIR/deployment"
+echo -e "   ./setup-ssl.sh brivaro.de\n"
 
 echo -e "${YELLOW}Installed:${NC}"
 echo -e "  ✓ Node.js $(node --version)"
