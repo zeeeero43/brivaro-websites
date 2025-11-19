@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Shield, Lock, Server, Award, CheckCircle2, UserCheck } from "lucide-react"
+import { Shield, Lock, Server } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion } from "framer-motion"
 

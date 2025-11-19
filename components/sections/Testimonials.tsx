@@ -4,7 +4,6 @@ import React from "react"
 import { Star, Quote } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion } from "framer-motion"
-import Image from "next/image"
 
 export function Testimonials() {
   const testimonials = [
@@ -78,7 +77,7 @@ export function Testimonials() {
 
                 {/* Testimonial Text */}
                 <p className="text-gray-700 mb-6 flex-grow leading-relaxed">
-                  "{testimonial.text}"
+                  &ldquo;{testimonial.text}&rdquo;
                 </p>
 
                 {/* Results Badge */}

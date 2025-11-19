@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { TrendingUp, Mail, Users, CheckCircle, Users as UsersIcon } from "lucide-react"
+import { TrendingUp, Mail, Users, CheckCircle } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion, AnimatePresence } from "framer-motion"
 

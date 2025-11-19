@@ -137,7 +137,7 @@ export function CaseStudies() {
 
                   {/* Testimonial */}
                   <div className="border-l-4 border-primary pl-6 py-2">
-                    <p className="text-lg text-gray-700 italic mb-4">"{study.testimonial}"</p>
+                    <p className="text-lg text-gray-700 italic mb-4">&ldquo;{study.testimonial}&rdquo;</p>
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
                         {study.author.charAt(0)}

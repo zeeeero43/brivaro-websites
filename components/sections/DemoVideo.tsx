@@ -152,7 +152,7 @@ export function DemoVideo() {
                         Füge hier dein YouTube/Vimeo Video ein oder nutze HTML5 video element
                       </p>
                       <p className="text-xs text-gray-500 mt-4">
-                        Beispiel: &lt;iframe src="https://www.youtube.com/embed/VIDEO_ID"&gt;&lt;/iframe&gt;
+                        Beispiel: &lt;iframe src=&quot;https://www.youtube.com/embed/VIDEO_ID&quot;&gt;&lt;/iframe&gt;
                       </p>
                     </div>
                   </div>
