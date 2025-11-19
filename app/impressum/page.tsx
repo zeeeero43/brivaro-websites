@@ -14,9 +14,9 @@ export default function ImpressumPage() {
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
           <h1 className="text-4xl font-bold mb-8">Impressum</h1>
 
-          {/* Angaben gemäß § 5 TMG */}
+          {/* Angaben gemäß § 5 DDG */}
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Angaben gemäß § 5 TMG</h2>
+            <h2 className="text-2xl font-bold mb-4">Angaben gemäß § 5 DDG</h2>
             <div className="bg-gradient-to-br from-primary/5 to-primary/10 p-6 rounded-xl border-l-4 border-primary">
               <p className="font-semibold text-lg mb-3">Kaan Kaya</p>
               <div className="space-y-2 text-gray-700">
@@ -72,7 +72,7 @@ export default function ImpressumPage() {
           {/* Verantwortlich für den Inhalt */}
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">
-              Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
+              Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="font-semibold mb-2">Kaan Kaya</p>
@@ -116,8 +116,8 @@ export default function ImpressumPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Haftung für Inhalte</h2>
             <p className="mb-4 text-gray-700">
-              Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen
-              Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir
+              Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen
+              Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir
               als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
               Informationen zu überwachen oder nach Umständen zu forschen, die auf eine
               rechtswidrige Tätigkeit hinweisen.
