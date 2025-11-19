@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { StructuredData } from "@/components/seo/StructuredData";
+import { Navigation } from "@/components/layout/Navigation";
+import { ScrollProgress } from "@/components/layout/ScrollProgress";
+import { StickyCTA } from "@/components/layout/StickyCTA";
+import { Footer } from "@/components/sections/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -116,7 +120,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ScrollProgress />
+          <Navigation />
+          <StickyCTA />
           {children}
+          <Footer />
           <StructuredData />
         </ThemeProvider>
       </body>
