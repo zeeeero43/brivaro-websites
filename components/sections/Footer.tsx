@@ -1,20 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Mail, Github, Twitter, Linkedin, Youtube, Send } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Github, Twitter, Linkedin, Youtube } from "lucide-react"
 
 export function Footer() {
-  const [email, setEmail] = useState("")
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Newsletter logic here
-    console.log("Newsletter signup:", email)
-    setEmail("")
-  }
 
   const footerLinks = {
     product: [
@@ -53,9 +44,9 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-white border-t border-gray-200">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-12">
-          {/* Brand + Newsletter */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+          {/* Brand */}
+          <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-4">
               <motion.div
                 className="text-3xl font-bold gradient-text"
@@ -64,35 +55,10 @@ export function Footer() {
                 Brivaro
               </motion.div>
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-sm">
+            <p className="text-muted-foreground max-w-sm">
               Lead Generation auf Autopilot für deutsche Web-Agenturen. DSGVO-konform
               und KI-powered.
             </p>
-
-            {/* Newsletter */}
-            <div>
-              <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
-                <Mail className="h-4 w-4" />
-                Newsletter
-              </h3>
-              <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="deine@email.de"
-                  className="flex-1 px-4 py-2 rounded-lg glass border border-white/10 focus:border-primary focus:outline-none text-sm"
-                  required
-                  aria-label="E-Mail-Adresse für Newsletter"
-                />
-                <Button type="submit" size="icon" aria-label="Newsletter abonnieren">
-                  <Send className="h-4 w-4" />
-                </Button>
-              </form>
-              <p className="text-xs text-muted-foreground mt-2">
-                Lead-Gen-Tipps & Updates. Jederzeit abmeldbar.
-              </p>
-            </div>
           </div>
 
           {/* Product Links */}
