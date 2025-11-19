@@ -1,15 +1,15 @@
 #!/bin/bash
 ################################################################################
-# Brivaro VPS Setup Script
+# Brivaro VPS Setup Script - Direct Approach (No Docker)
 #
-# Dieses Script richtet einen frischen VPS komplett ein:
-# - Docker + Docker Compose
-# - Nginx Reverse Proxy
-# - SSL via Let's Encrypt
+# Richtet einen frischen Ubuntu 22.04 VPS für Next.js ein:
+# - Node.js 20 LTS
+# - nginx Reverse Proxy
+# - SSL via Let's Encrypt (vorbereitet)
 # - Firewall (UFW)
 # - Fail2Ban (Security)
 # - Auto-Updates
-# - Monitoring (optional)
+# - systemd Service
 #
 # USAGE:
 # 1. Fresh Ubuntu 22.04 VPS
@@ -37,7 +37,7 @@ cat << "EOF"
 ║   ██████╔╝██║  ██║██║ ╚████╔╝ ██║  ██║██║  ██║╚██████╔╝    ║
 ║   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝     ║
 ║                                                              ║
-║               VPS Setup Script v1.0                          ║
+║          VPS Direct Setup v2.0 (No Docker)                   ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 EOF
@@ -54,7 +54,7 @@ echo -e "${YELLOW}Starting VPS setup...${NC}\n"
 ################################################################################
 # 1. System Update
 ################################################################################
-echo -e "${GREEN}[1/10] Updating system...${NC}"
+echo -e "${GREEN}[1/8] Updating system...${NC}"
 apt-get update -qq
 apt-get upgrade -y -qq
 apt-get autoremove -y -qq
@@ -62,7 +62,7 @@ apt-get autoremove -y -qq
 ################################################################################
 # 2. Install Essential Packages
 ################################################################################
-echo -e "${GREEN}[2/10] Installing essential packages...${NC}"
+echo -e "${GREEN}[2/8] Installing essential packages...${NC}"
 apt-get install -y -qq \
     curl \
     wget \
@@ -76,43 +76,44 @@ apt-get install -y -qq \
     software-properties-common \
     ca-certificates \
     gnupg \
-    lsb-release
+    build-essential
 
 ################################################################################
-# 3. Install Docker
+# 3. Install Node.js 20 LTS
 ################################################################################
-echo -e "${GREEN}[3/10] Installing Docker...${NC}"
+echo -e "${GREEN}[3/8] Installing Node.js 20 LTS...${NC}"
 
-# Remove old versions
-apt-get remove -y docker docker-engine docker.io containerd runc 2>/dev/null || true
+# Remove old Node versions
+apt-get remove -y nodejs npm 2>/dev/null || true
 
-# Add Docker's official GPG key
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-chmod a+r /etc/apt/keyrings/docker.gpg
+# Add NodeSource repository
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 
-# Add repository
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Install Node.js
+apt-get install -y nodejs
 
-# Install Docker
-apt-get update -qq
-apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# Verify installation
+node --version
+npm --version
 
-# Start Docker
-systemctl start docker
-systemctl enable docker
-
-# Verify
-docker --version
-
-echo -e "${GREEN}✓ Docker installed${NC}"
+echo -e "${GREEN}✓ Node.js installed${NC}"
 
 ################################################################################
-# 4. Configure Firewall (UFW)
+# 4. Install nginx
 ################################################################################
-echo -e "${GREEN}[4/10] Configuring firewall...${NC}"
+echo -e "${GREEN}[4/8] Installing nginx...${NC}"
+
+apt-get install -y nginx
+
+# Stop default nginx
+systemctl stop nginx
+
+echo -e "${GREEN}✓ nginx installed${NC}"
+
+################################################################################
+# 5. Configure Firewall (UFW)
+################################################################################
+echo -e "${GREEN}[5/8] Configuring firewall...${NC}"
 
 # Reset firewall
 ufw --force reset
@@ -135,12 +136,12 @@ echo -e "${GREEN}✓ Firewall configured${NC}"
 ufw status
 
 ################################################################################
-# 5. Setup Fail2Ban (Brute-Force Protection)
+# 6. Setup Fail2Ban (Brute-Force Protection)
 ################################################################################
-echo -e "${GREEN}[5/10] Setting up Fail2Ban...${NC}"
+echo -e "${GREEN}[6/8] Setting up Fail2Ban...${NC}"
 
 # Create custom config
-cat > /etc/fail2ban/jail.local << 'EOF'
+cat > /etc/fail2ban/jail.local << 'FAIL2BAN_EOF'
 [DEFAULT]
 bantime = 1h
 findtime = 10m
@@ -163,7 +164,7 @@ logpath = /var/log/nginx/error.log
 enabled = true
 port = http,https
 logpath = /var/log/nginx/error.log
-EOF
+FAIL2BAN_EOF
 
 # Start Fail2Ban
 systemctl start fail2ban
@@ -172,11 +173,11 @@ systemctl enable fail2ban
 echo -e "${GREEN}✓ Fail2Ban configured${NC}"
 
 ################################################################################
-# 6. Setup Auto-Updates
+# 7. Setup Auto-Updates
 ################################################################################
-echo -e "${GREEN}[6/10] Enabling automatic security updates...${NC}"
+echo -e "${GREEN}[7/8] Enabling automatic security updates...${NC}"
 
-cat > /etc/apt/apt.conf.d/50unattended-upgrades << 'EOF'
+cat > /etc/apt/apt.conf.d/50unattended-upgrades << 'AUTOUPDATE_EOF'
 Unattended-Upgrade::Allowed-Origins {
     "${distro_id}:${distro_codename}-security";
 };
@@ -185,201 +186,59 @@ Unattended-Upgrade::MinimalSteps "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Automatic-Reboot "false";
-EOF
+AUTOUPDATE_EOF
 
-cat > /etc/apt/apt.conf.d/20auto-upgrades << 'EOF'
+cat > /etc/apt/apt.conf.d/20auto-upgrades << 'AUTOCONFIG_EOF'
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
 APT::Periodic::AutocleanInterval "7";
-EOF
+AUTOCONFIG_EOF
 
 echo -e "${GREEN}✓ Auto-updates enabled${NC}"
 
 ################################################################################
-# 7. Create Application Directory Structure
+# 8. Setup Application
 ################################################################################
-echo -e "${GREEN}[7/10] Creating application directories...${NC}"
+echo -e "${GREEN}[8/8] Setting up application...${NC}"
 
-mkdir -p /opt/brivaro/{app,nginx,data,logs,backups}
-mkdir -p /opt/brivaro/data/{redis,postgres}
+# Create dedicated user
+useradd -r -s /bin/bash -d /opt/brivaro -m brivaro || true
 
-echo -e "${GREEN}✓ Directories created${NC}"
+# Create directory structure
+mkdir -p /opt/brivaro/{app,backups,logs}
+chown -R brivaro:brivaro /opt/brivaro
 
-################################################################################
-# 8. Create Docker Compose Configuration
-################################################################################
-echo -e "${GREEN}[8/10] Creating Docker Compose configuration...${NC}"
+# Create systemd service file
+cat > /etc/systemd/system/brivaro.service << 'SERVICE_EOF'
+[Unit]
+Description=Brivaro Next.js Application
+After=network.target
 
-cat > /opt/brivaro/docker-compose.yml << 'EOF'
-version: '3.8'
+[Service]
+Type=simple
+User=brivaro
+WorkingDirectory=/opt/brivaro/app
+Environment="NODE_ENV=production"
+Environment="PORT=3000"
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=brivaro
 
-services:
-  # Next.js Application
-  app:
-    image: node:18-alpine
-    container_name: brivaro-app
-    restart: unless-stopped
-    working_dir: /app
-    volumes:
-      - ./app:/app
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-    command: sh -c "npm install && npm run build && npm start"
-    expose:
-      - "3000"
-    networks:
-      - brivaro-network
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+[Install]
+WantedBy=multi-user.target
+SERVICE_EOF
 
-  # Nginx Reverse Proxy
-  nginx:
-    image: nginx:alpine
-    container_name: brivaro-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-      - ./logs/nginx:/var/log/nginx
-    depends_on:
-      - app
-    networks:
-      - brivaro-network
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+# Create nginx config
+mkdir -p /etc/nginx/sites-available
+mkdir -p /etc/nginx/sites-enabled
 
-  # Redis (für Queue & Cache)
-  redis:
-    image: redis:7-alpine
-    container_name: brivaro-redis
-    restart: unless-stopped
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme}
-    volumes:
-      - ./data/redis:/data
-    expose:
-      - "6379"
-    networks:
-      - brivaro-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # PostgreSQL (für Daten)
-  postgres:
-    image: postgres:15-alpine
-    container_name: brivaro-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-brivaro}
-      POSTGRES_USER: ${POSTGRES_USER:-brivaro}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    expose:
-      - "5432"
-    networks:
-      - brivaro-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U brivaro"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Watchtower (Auto-Updates für Docker Images)
-  watchtower:
-    image: containrrr/watchtower
-    container_name: brivaro-watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_POLL_INTERVAL=86400  # 24h
-    networks:
-      - brivaro-network
-
-networks:
-  brivaro-network:
-    driver: bridge
-EOF
-
-echo -e "${GREEN}✓ Docker Compose config created${NC}"
-
-################################################################################
-# 9. Create Nginx Configuration
-################################################################################
-echo -e "${GREEN}[9/10] Creating Nginx configuration...${NC}"
-
-mkdir -p /opt/brivaro/nginx/conf.d
-
-cat > /opt/brivaro/nginx/nginx.conf << 'EOF'
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log warn;
-pid /var/run/nginx.pid;
-
-events {
-    worker_connections 1024;
-    use epoll;
-    multi_accept on;
-}
-
-http {
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log /var/log/nginx/access.log main;
-
-    # Performance
-    sendfile on;
-    tcp_nopush on;
-    tcp_nodelay on;
-    keepalive_timeout 65;
-    types_hash_max_size 2048;
-    client_max_body_size 20M;
-
-    # Gzip
-    gzip on;
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types text/plain text/css text/xml text/javascript
-               application/json application/javascript application/xml+rss
-               application/rss+xml font/truetype font/opentype
-               application/vnd.ms-fontobject image/svg+xml;
-
-    # Security Headers
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header Referrer-Policy "no-referrer-when-downgrade" always;
-
-    # Include site configs
-    include /etc/nginx/conf.d/*.conf;
-}
-EOF
-
-cat > /opt/brivaro/nginx/conf.d/brivaro.conf << 'EOF'
-# Health check endpoint (für Docker healthcheck)
+cat > /etc/nginx/sites-available/brivaro << 'NGINX_EOF'
+# Health check endpoint
 server {
-    listen 80;
+    listen 80 default_server;
     server_name _;
 
     location /health {
@@ -389,7 +248,7 @@ server {
     }
 }
 
-# HTTP Server (wird später zu HTTPS redirect)
+# Main application
 server {
     listen 80;
     server_name brivaro.de www.brivaro.de;
@@ -399,14 +258,9 @@ server {
         root /var/www/certbot;
     }
 
-    # Später: Redirect to HTTPS
-    # location / {
-    #     return 301 https://$server_name$request_uri;
-    # }
-
-    # Vorerst: Proxy to App
+    # Proxy to Next.js
     location / {
-        proxy_pass http://app:3000;
+        proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -424,25 +278,23 @@ server {
 
     # Static files caching
     location /_next/static {
-        proxy_pass http://app:3000;
-        proxy_cache_valid 200 365d;
+        proxy_pass http://localhost:3000;
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
     location /static {
-        proxy_pass http://app:3000;
-        proxy_cache_valid 200 365d;
+        proxy_pass http://localhost:3000;
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 }
 
-# HTTPS Server (uncomment nach SSL-Setup)
+# HTTPS Server (uncomment after SSL setup)
 # server {
 #     listen 443 ssl http2;
 #     server_name brivaro.de www.brivaro.de;
 #
-#     ssl_certificate /etc/nginx/ssl/fullchain.pem;
-#     ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+#     ssl_certificate /etc/letsencrypt/live/brivaro.de/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/brivaro.de/privkey.pem;
 #
 #     # SSL Settings
 #     ssl_protocols TLSv1.2 TLSv1.3;
@@ -454,8 +306,13 @@ server {
 #     # HSTS
 #     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 #
+#     # Security Headers
+#     add_header X-Frame-Options "SAMEORIGIN" always;
+#     add_header X-Content-Type-Options "nosniff" always;
+#     add_header X-XSS-Protection "1; mode=block" always;
+#
 #     location / {
-#         proxy_pass http://app:3000;
+#         proxy_pass http://localhost:3000;
 #         proxy_http_version 1.1;
 #         proxy_set_header Upgrade $http_upgrade;
 #         proxy_set_header Connection 'upgrade';
@@ -467,42 +324,77 @@ server {
 #     }
 #
 #     location /_next/static {
-#         proxy_pass http://app:3000;
+#         proxy_pass http://localhost:3000;
 #         add_header Cache-Control "public, max-age=31536000, immutable";
 #     }
 # }
-EOF
+NGINX_EOF
 
-echo -e "${GREEN}✓ Nginx config created${NC}"
+# Enable nginx site
+ln -sf /etc/nginx/sites-available/brivaro /etc/nginx/sites-enabled/brivaro
+rm -f /etc/nginx/sites-enabled/default
 
-################################################################################
-# 10. Create Environment File Template
-################################################################################
-echo -e "${GREEN}[10/10] Creating environment file...${NC}"
+# Update main nginx config
+cat > /etc/nginx/nginx.conf << 'NGINX_MAIN_EOF'
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+error_log /var/log/nginx/error.log warn;
+include /etc/nginx/modules-enabled/*.conf;
 
-cat > /opt/brivaro/.env.example << 'EOF'
-# Database
-POSTGRES_DB=brivaro
-POSTGRES_USER=brivaro
-POSTGRES_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+events {
+    worker_connections 1024;
+    use epoll;
+    multi_accept on;
+}
 
-# Redis
-REDIS_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+http {
+    # Basic Settings
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    client_max_body_size 20M;
 
-# Next.js
-NODE_ENV=production
-NEXT_PUBLIC_API_URL=https://brivaro.de
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
-# Optional: APIs für später
-DEEPSEEK_API_KEY=
-RUNWARE_API_KEY=
-RESEND_API_KEY=
-EOF
+    # Logging
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log /var/log/nginx/access.log main;
 
-# Copy to actual .env
-cp /opt/brivaro/.env.example /opt/brivaro/.env
+    # Gzip
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml text/javascript
+               application/json application/javascript application/xml+rss
+               application/rss+xml font/truetype font/opentype
+               application/vnd.ms-fontobject image/svg+xml;
 
-echo -e "${GREEN}✓ Environment file created${NC}"
+    # Security Headers (global)
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    # Virtual Host Configs
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+NGINX_MAIN_EOF
+
+# Test nginx config
+nginx -t
+
+# Start nginx
+systemctl start nginx
+systemctl enable nginx
+
+echo -e "${GREEN}✓ Application setup complete${NC}"
 
 ################################################################################
 # Final Summary
@@ -513,44 +405,50 @@ echo -e "${GREEN}╚════════════════════
 
 echo -e "${YELLOW}Next Steps:${NC}\n"
 
-echo -e "1. ${GREEN}Edit environment file:${NC}"
-echo -e "   nano /opt/brivaro/.env"
-echo -e "   → Change passwords!\n"
-
-echo -e "2. ${GREEN}Upload your app code:${NC}"
+echo -e "1. ${GREEN}Clone your repository:${NC}"
 echo -e "   cd /opt/brivaro/app"
 echo -e "   git clone https://github.com/yourusername/brivaro-websites.git ."
-echo -e "   # OR use scp/rsync\n"
+echo -e "   chown -R brivaro:brivaro /opt/brivaro/app\n"
 
-echo -e "3. ${GREEN}Start the stack:${NC}"
-echo -e "   cd /opt/brivaro"
-echo -e "   docker compose up -d\n"
+echo -e "2. ${GREEN}Install dependencies and build:${NC}"
+echo -e "   su - brivaro"
+echo -e "   cd /opt/brivaro/app"
+echo -e "   npm ci --production"
+echo -e "   npm run build\n"
+
+echo -e "3. ${GREEN}Start the application:${NC}"
+echo -e "   exit  # Exit from brivaro user"
+echo -e "   systemctl start brivaro"
+echo -e "   systemctl enable brivaro\n"
 
 echo -e "4. ${GREEN}Check status:${NC}"
-echo -e "   docker compose ps"
-echo -e "   docker compose logs -f app\n"
+echo -e "   systemctl status brivaro"
+echo -e "   journalctl -u brivaro -f\n"
 
 echo -e "5. ${GREEN}Setup SSL (after DNS points to server):${NC}"
-echo -e "   Run: /opt/brivaro/setup-ssl.sh brivaro.de\n"
+echo -e "   ./deployment/setup-ssl.sh brivaro.de\n"
 
 echo -e "${YELLOW}Installed:${NC}"
-echo -e "  ✓ Docker & Docker Compose"
-echo -e "  ✓ Nginx Reverse Proxy"
-echo -e "  ✓ PostgreSQL Database"
-echo -e "  ✓ Redis Cache"
+echo -e "  ✓ Node.js $(node --version)"
+echo -e "  ✓ npm $(npm --version)"
+echo -e "  ✓ nginx"
 echo -e "  ✓ Firewall (UFW) - Ports 22, 80, 443 open"
 echo -e "  ✓ Fail2Ban (Brute-force protection)"
-echo -e "  ✓ Auto-Updates enabled\n"
+echo -e "  ✓ Auto-Updates enabled"
+echo -e "  ✓ systemd service configured\n"
 
 echo -e "${YELLOW}Access:${NC}"
 echo -e "  HTTP:  http://$(curl -s ifconfig.me)\n"
 
 echo -e "${YELLOW}Useful Commands:${NC}"
-echo -e "  docker compose logs -f       # View logs"
-echo -e "  docker compose restart app   # Restart app"
-echo -e "  docker compose down          # Stop all"
-echo -e "  docker compose up -d         # Start all"
-echo -e "  ufw status                   # Firewall status"
-echo -e "  fail2ban-client status       # Security status\n"
+echo -e "  systemctl status brivaro      # Check service status"
+echo -e "  systemctl restart brivaro     # Restart app"
+echo -e "  systemctl stop brivaro        # Stop app"
+echo -e "  journalctl -u brivaro -f      # View logs (live)"
+echo -e "  journalctl -u brivaro -n 100  # View last 100 log lines"
+echo -e "  systemctl status nginx        # Check nginx status"
+echo -e "  nginx -t                      # Test nginx config"
+echo -e "  ufw status                    # Firewall status"
+echo -e "  fail2ban-client status        # Security status\n"
 
-echo -e "${RED}WICHTIG: Ändere die Passwörter in /opt/brivaro/.env!${NC}\n"
+echo -e "${GREEN}Setup complete! Deploy your code and start the service.${NC}\n"
