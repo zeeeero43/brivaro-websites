@@ -1,11 +1,8 @@
+"use client"
+
 import type { Metadata } from "next"
 import Link from "next/link"
 import { Cookie, Check, X } from "lucide-react"
-
-export const metadata: Metadata = {
-  title: "Cookie-Richtlinie",
-  description: "Cookie-Richtlinie von Brivaro - Informationen über die Verwendung von Cookies auf unserer Website",
-}
 
 export default function CookiesPage() {
   return (
@@ -18,7 +15,7 @@ export default function CookiesPage() {
           </div>
 
           <p className="text-sm text-gray-600 mb-8">
-            Zuletzt aktualisiert: {new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}
+            Zuletzt aktualisiert: November 2025
           </p>
 
           {/* Was sind Cookies */}
