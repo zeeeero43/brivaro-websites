@@ -74,11 +74,95 @@ NGINX_CONF="/etc/nginx/sites-available/brivaro"
 # Backup original
 cp $NGINX_CONF ${NGINX_CONF}.bak
 
-# Add HTTP to HTTPS redirect
-sed -i '/# Proxy to Next.js/,/^    }$/c\    # Redirect to HTTPS\n    location / {\n        return 301 https://$server_name$request_uri;\n    }' $NGINX_CONF
+# Create new config with SSL enabled
+cat > $NGINX_CONF << 'SSL_NGINX_EOF'
+# Default server - blocks all unknown domains for security
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
 
-# Uncomment HTTPS server block
-sed -i '/# HTTPS Server (uncomment after SSL setup)/,/# }/s/^# //' $NGINX_CONF
+    location /health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 444;
+    }
+}
+
+# HTTP Server - Redirect to HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+    server_name brivaro.de www.brivaro.de;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$server_name$request_uri;
+    }
+}
+
+# HTTPS Server
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name brivaro.de www.brivaro.de;
+
+    ssl_certificate /etc/letsencrypt/live/brivaro.de/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/brivaro.de/privkey.pem;
+
+    # SSL Settings
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # HSTS
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # Security Headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    location /_next/static {
+        proxy_pass http://localhost:3000;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    location /static {
+        proxy_pass http://localhost:3000;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+SSL_NGINX_EOF
 
 # Test nginx config
 echo -e "${GREEN}Testing Nginx configuration...${NC}"
