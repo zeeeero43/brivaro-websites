@@ -61,22 +61,22 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <motion.a
-              href="#preise"
+              href="#demo-video"
               className="bg-primary text-white text-lg px-10 py-4 rounded-lg font-semibold shadow-lg inline-block"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              Jetzt starten
+              Live-Demo ansehen
             </motion.a>
             <motion.a
-              href="#demo-video"
+              href="#preise"
               className="bg-white border-2 border-gray-300 text-gray-900 text-lg px-10 py-4 rounded-lg font-semibold inline-block"
               whileHover={{ scale: 1.05, borderColor: "hsl(var(--primary))" }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              Live-Demo ansehen
+              Kostenlos testen
             </motion.a>
           </motion.div>
 

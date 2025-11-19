@@ -13,22 +13,27 @@ export function LeadCalculator() {
   const responseRate = 0.09 // 9% average response rate
   const leadsPerMonth = Math.round(emailsPerMonth * responseRate)
 
-  // Determine recommended plan
+  // Determine recommended plan based on emails per month
+  // 1 email = 1 lead
   const getRecommendedPlan = () => {
-    if (leadsPerMonth <= 1500) {
+    // Starter: 1500 Leads/Emails per month
+    // Professional: 5000 Leads/Emails per month
+    // Enterprise: 10000+ Leads/Emails per month
+
+    if (emailsPerMonth <= 1500) {
       return {
         name: "Starter",
         price: 399,
         monthlyLeads: "1500 Leads",
-        monthlyEmails: "bis zu 4.500 E-Mails (3 pro Lead)",
+        monthlyEmails: "1.500 E-Mails",
         campaigns: "3 Kampagnen"
       }
-    } else if (leadsPerMonth <= 5000) {
+    } else if (emailsPerMonth <= 5000) {
       return {
         name: "Professional",
         price: 699,
         monthlyLeads: "5000 Leads",
-        monthlyEmails: "bis zu 15.000 E-Mails (3 pro Lead)",
+        monthlyEmails: "5.000 E-Mails",
         campaigns: "6 Kampagnen"
       }
     } else {
@@ -36,7 +41,7 @@ export function LeadCalculator() {
         name: "Enterprise",
         price: "Auf Anfrage",
         monthlyLeads: "10.000+ Leads",
-        monthlyEmails: "30.000+ E-Mails (3 pro Lead)",
+        monthlyEmails: "10.000+ E-Mails",
         campaigns: "Unlimitiert"
       }
     }
@@ -45,7 +50,7 @@ export function LeadCalculator() {
   const plan = getRecommendedPlan()
 
   return (
-    <section className="py-20 relative overflow-hidden bg-white">
+    <section id="roi-rechner" className="py-20 relative overflow-hidden bg-white">
       <div className="container mx-auto px-4">
         <ScrollReveal>
           <div className="text-center mb-12">

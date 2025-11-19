@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Gift, Check } from "lucide-react"
+import { X, Play, Calendar, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { CalModal } from "@/components/CalModal"
 
 export function ExitIntentPopup() {
   const [isVisible, setIsVisible] = useState(false)
   const [hasShown, setHasShown] = useState(false)
+  const [isCalOpen, setIsCalOpen] = useState(false)
 
   useEffect(() => {
     // Exit intent detection
@@ -73,16 +75,16 @@ export function ExitIntentPopup() {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <Gift className="h-10 w-10 text-white" />
+                  <Play className="h-10 w-10 text-white" />
                 </motion.div>
 
                 {/* Headline */}
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Bereit für <span className="gradient-text">automatisierte Leads?</span>
+                  Noch unsicher? <span className="gradient-text">Sieh Brivaro in Aktion!</span>
                 </h2>
 
                 <p className="text-xl text-gray-600 mb-8">
-                  Starte jetzt und bekomme 1-3 qualifizierte Anfragen pro Tag
+                  90 Sekunden Demo oder persönliches Onboarding-Gespräch
                 </p>
 
                 {/* Offer Box */}
@@ -91,10 +93,10 @@ export function ExitIntentPopup() {
                   {/* Benefits */}
                   <div className="space-y-2 text-left max-w-md mx-auto">
                     {[
-                      "30 Tage Geld-zurück-Garantie",
-                      "Keine Kreditkarte erforderlich",
-                      "Setup in unter 5 Minuten",
-                      "Exklusiver Beta-Zugang",
+                      "Versteh das System in unter 2 Minuten",
+                      "Sieh echte Beispiele und Ergebnisse",
+                      "Kostenlose 30-minütige Einrichtung",
+                      "Keine Verpflichtungen",
                     ].map((benefit, index) => (
                       <motion.div
                         key={index}
@@ -112,28 +114,49 @@ export function ExitIntentPopup() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button asChild size="lg" className="text-lg px-8 py-6 w-full sm:w-auto">
-                    <a href="#trial">
-                      Jetzt Beta-Zugang sichern
+                  <Button
+                    size="lg"
+                    className="text-lg px-8 py-6 w-full sm:w-auto bg-primary hover:bg-primary-dark"
+                    onClick={() => {
+                      setIsCalOpen(true)
+                      handleClose()
+                    }}
+                  >
+                    <Calendar className="h-5 w-5 mr-2" />
+                    Onboarding buchen
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-lg px-8 py-6 w-full sm:w-auto"
+                    asChild
+                  >
+                    <a href="#demo-video" onClick={handleClose}>
+                      <Play className="h-5 w-5 mr-2" />
+                      Demo ansehen
                     </a>
                   </Button>
-                  <button
-                    onClick={handleClose}
-                    className="text-gray-500 hover:text-gray-700 text-sm font-medium"
-                  >
-                    Nein danke, vielleicht später
-                  </button>
                 </div>
+
+                <button
+                  onClick={handleClose}
+                  className="text-gray-500 hover:text-gray-700 text-sm font-medium mt-4"
+                >
+                  Nein danke, vielleicht später
+                </button>
 
                 {/* Trust indicator */}
                 <p className="text-xs text-gray-500 mt-6">
-                  🔒 Sicher & DSGVO-konform • 500+ zufriedene Kunden
+                  🔒 Sicher & DSGVO-konform • Kostenlose Beratung
                 </p>
               </div>
             </div>
           </motion.div>
         </>
       )}
+
+      {/* Cal.com Modal */}
+      <CalModal isOpen={isCalOpen} onClose={() => setIsCalOpen(false)} />
     </AnimatePresence>
   )
 }

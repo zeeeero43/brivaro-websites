@@ -1,13 +1,15 @@
 "use client"
 
 import React, { useState } from "react"
-import { Check, Star } from "lucide-react"
+import { Check, Star, Calendar } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { CalModal } from "@/components/CalModal"
 
 export function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false)
+  const [isCalOpen, setIsCalOpen] = useState(false)
 
   const plans = [
     {
@@ -71,8 +73,13 @@ export function Pricing() {
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
             Einfache <span className="gradient-text">Preise</span>
           </h2>
-          <p className="text-xl text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground text-center mb-3 max-w-2xl mx-auto">
             Transparente Preisgestaltung ohne versteckte Kosten
+          </p>
+
+          {/* Short Onboarding Info */}
+          <p className="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            ✨ <span className="font-semibold text-primary">Inklusive: Persönliches 30-Minuten Onboarding</span> – Wir gehen gemeinsam mit dir durch die App und richten alles optimal ein, damit du sofort erfolgreich durchstarten kannst.
           </p>
 
           {/* Annual/Monthly Toggle */}
@@ -173,11 +180,10 @@ export function Pricing() {
                     className="w-full"
                     variant={plan.popular ? "default" : "outline"}
                     size="lg"
-                    asChild
+                    onClick={() => setIsCalOpen(true)}
                   >
-                    <a href={plan.priceMonthly === "Auf Anfrage" ? "mailto:info@brivaro.de?subject=Enterprise Demo Anfrage" : `https://app.brivaro.de/register?plan=${plan.name.toLowerCase()}`}>
-                      {plan.priceMonthly === "Auf Anfrage" ? "Demo buchen" : "Jetzt starten"}
-                    </a>
+                    <Calendar className="h-4 w-4 mr-2" />
+                    {plan.priceMonthly === "Auf Anfrage" ? "Enterprise Gespräch buchen" : "Onboarding buchen"}
                   </Button>
                 </div>
               </motion.div>
@@ -185,6 +191,9 @@ export function Pricing() {
           ))}
         </div>
       </div>
+
+      {/* Cal.com Modal */}
+      <CalModal isOpen={isCalOpen} onClose={() => setIsCalOpen(false)} />
     </section>
   )
 }

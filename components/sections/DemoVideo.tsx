@@ -1,13 +1,15 @@
 "use client"
 
 import React, { useState } from "react"
-import { Play, Check, X } from "lucide-react"
+import { Play, Check, X, Calendar } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { CalModal } from "@/components/CalModal"
 
 export function DemoVideo() {
   const [isVideoOpen, setIsVideoOpen] = useState(false)
+  const [isCalOpen, setIsCalOpen] = useState(false)
 
   const benefits = [
     "Sieh wie einfach Lead-Scraping funktioniert",
@@ -102,15 +104,36 @@ export function DemoVideo() {
         {/* CTA below video */}
         <ScrollReveal delay={0.3}>
           <div className="text-center mt-12">
-            <p className="text-gray-600 mb-6">
-              Bereit, es selbst auszuprobieren?
+            <p className="text-gray-600 mb-6 text-lg">
+              Bereit durchzustarten? Buche dein <span className="font-semibold text-primary">kostenloses Onboarding</span>
             </p>
-            <Button size="lg" className="text-lg px-8 py-6" asChild>
-              <a href="#preise">Jetzt starten</a>
-            </Button>
+            <p className="text-sm text-gray-500 mb-6">
+              30-minütiges Setup-Gespräch inklusive • Wir richten alles für dich ein
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                size="lg"
+                className="text-lg px-8 py-6 bg-primary hover:bg-primary-dark"
+                onClick={() => setIsCalOpen(true)}
+              >
+                <Calendar className="h-5 w-5 mr-2" />
+                Kostenloses Onboarding buchen
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 py-6"
+                asChild
+              >
+                <a href="#preise">Direkt starten</a>
+              </Button>
+            </div>
           </div>
         </ScrollReveal>
       </div>
+
+      {/* Cal.com Modal */}
+      <CalModal isOpen={isCalOpen} onClose={() => setIsCalOpen(false)} />
 
       {/* Video Modal */}
       <AnimatePresence>

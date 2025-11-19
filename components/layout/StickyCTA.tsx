@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, X } from "lucide-react"
+import { Play, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function StickyCTA() {
@@ -11,12 +11,12 @@ export function StickyCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after 50% scroll
-      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      // Show after scrolling past hero section (roughly 80vh)
+      const scrollY = window.scrollY
 
-      if (scrollPercent > 50 && !isDismissed) {
+      if (scrollY > window.innerHeight * 0.8 && !isDismissed) {
         setIsVisible(true)
-      } else if (scrollPercent <= 50) {
+      } else if (scrollY <= window.innerHeight * 0.8) {
         setIsVisible(false)
       }
     }
@@ -46,10 +46,10 @@ export function StickyCTA() {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                   <h3 className="font-bold text-lg whitespace-nowrap">
-                    Bereit für mehr Leads?
+                    Noch nicht überzeugt?
                   </h3>
                   <p className="text-sm text-gray-600 truncate">
-                    Starte jetzt mit 30 Tage Geld-zurück-Garantie
+                    Sieh Brivaro in 90 Sekunden in Aktion
                   </p>
                 </div>
               </div>
@@ -57,9 +57,9 @@ export function StickyCTA() {
               {/* Right side - CTA Buttons */}
               <div className="flex items-center gap-3">
                 <Button asChild size="lg" className="group whitespace-nowrap">
-                  <a href="#trial">
-                    Jetzt starten
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <a href="#demo-video">
+                    <Play className="mr-2 h-4 w-4" />
+                    Demo ansehen
                   </a>
                 </Button>
 
