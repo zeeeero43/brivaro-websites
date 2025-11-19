@@ -225,7 +225,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-    command: sh -c "npm ci && npm run build && npm start"
+    command: sh -c "npm install && npm run build && npm start"
     expose:
       - "3000"
     networks:
