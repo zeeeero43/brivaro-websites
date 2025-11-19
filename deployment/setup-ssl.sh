@@ -51,14 +51,15 @@ fi
 # Install Certbot
 echo -e "${GREEN}Installing Certbot...${NC}"
 apt-get update -qq
-apt-get install -y -qq certbot python3-certbot-nginx
+apt-get install -y -qq certbot
 
-# Create certbot directory
-mkdir -p /var/www/certbot
+# Stop nginx temporarily for standalone mode
+echo -e "${GREEN}Stopping nginx temporarily...${NC}"
+systemctl stop nginx
 
-# Get certificate
+# Get certificate with standalone mode (bypasses nginx/DNS issues)
 echo -e "${GREEN}Requesting SSL certificate...${NC}"
-certbot certonly --nginx \
+certbot certonly --standalone \
     --non-interactive \
     --agree-tos \
     --email $EMAIL \
@@ -83,9 +84,9 @@ sed -i '/# HTTPS Server (uncomment after SSL setup)/,/# }/s/^# //' $NGINX_CONF
 echo -e "${GREEN}Testing Nginx configuration...${NC}"
 nginx -t
 
-# Reload nginx
-echo -e "${GREEN}Reloading Nginx with SSL...${NC}"
-systemctl reload nginx
+# Start nginx (was stopped for standalone mode)
+echo -e "${GREEN}Starting Nginx with SSL...${NC}"
+systemctl start nginx
 
 # Setup auto-renewal
 echo -e "${GREEN}Setting up auto-renewal...${NC}"
