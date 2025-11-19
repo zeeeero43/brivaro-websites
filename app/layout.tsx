@@ -7,6 +7,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { StickyCTA } from "@/components/layout/StickyCTA";
 import { Footer } from "@/components/sections/Footer";
+import { CookieConsentBanner } from "@/components/CookieConsent";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -125,6 +126,7 @@ export default function RootLayout({
           <StickyCTA />
           {children}
           <Footer />
+          <CookieConsentBanner />
           <StructuredData />
         </ThemeProvider>
       </body>
