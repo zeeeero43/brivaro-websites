@@ -110,24 +110,14 @@ export function DemoVideo() {
             <p className="text-sm text-gray-500 mb-6">
               30-minütiges Setup-Gespräch inklusive • Wir richten alles für dich ein
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                className="text-lg px-8 py-6 bg-primary hover:bg-primary-dark"
-                onClick={() => setIsCalOpen(true)}
-              >
-                <Calendar className="h-5 w-5 mr-2" />
-                Kostenloses Onboarding buchen
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 py-6"
-                asChild
-              >
-                <a href="#preise">Direkt starten</a>
-              </Button>
-            </div>
+            <Button
+              size="lg"
+              className="text-lg px-8 py-6 bg-primary hover:bg-primary-dark"
+              onClick={() => setIsCalOpen(true)}
+            >
+              <Calendar className="h-5 w-5 mr-2" />
+              Kostenloses Onboarding buchen
+            </Button>
           </div>
         </ScrollReveal>
       </div>
