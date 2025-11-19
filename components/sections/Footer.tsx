@@ -71,10 +71,10 @@ export function Footer() {
 
             {/* Newsletter */}
             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
+              <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
                 <Mail className="h-4 w-4" />
                 Newsletter
-              </h4>
+              </h3>
               <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
                 <input
                   type="email"
@@ -83,8 +83,9 @@ export function Footer() {
                   placeholder="deine@email.de"
                   className="flex-1 px-4 py-2 rounded-lg glass border border-white/10 focus:border-primary focus:outline-none text-sm"
                   required
+                  aria-label="E-Mail-Adresse für Newsletter"
                 />
-                <Button type="submit" size="icon">
+                <Button type="submit" size="icon" aria-label="Newsletter abonnieren">
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
@@ -96,7 +97,7 @@ export function Footer() {
 
           {/* Product Links */}
           <div>
-            <h4 className="font-semibold mb-4">Produkt</h4>
+            <h3 className="font-semibold mb-4 text-base">Produkt</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link, index) => (
                 <li key={index}>
@@ -114,7 +115,7 @@ export function Footer() {
 
           {/* Resources Links */}
           <div>
-            <h4 className="font-semibold mb-4">Ressourcen</h4>
+            <h3 className="font-semibold mb-4 text-base">Ressourcen</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link, index) => (
                 <li key={index}>
@@ -132,7 +133,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h4 className="font-semibold mb-4">Unternehmen</h4>
+            <h3 className="font-semibold mb-4 text-base">Unternehmen</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
@@ -150,7 +151,7 @@ export function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h3 className="font-semibold mb-4 text-base">Legal</h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>

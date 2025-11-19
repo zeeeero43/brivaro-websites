@@ -75,7 +75,7 @@ export function LeadCalculator() {
             <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl border-2 border-gray-200 p-8 md:p-12 shadow-xl">
               {/* Input Section */}
               <div className="mb-12">
-                <label className="block text-lg font-semibold mb-4 text-gray-900">
+                <label htmlFor="emails-per-day-slider" className="block text-lg font-semibold mb-4 text-gray-900">
                   Wie viele E-Mails möchtest du pro Tag versenden?
                 </label>
 
@@ -83,6 +83,7 @@ export function LeadCalculator() {
                 <div className="space-y-6">
                   <div className="relative">
                     <input
+                      id="emails-per-day-slider"
                       type="range"
                       min="10"
                       max="300"
@@ -90,6 +91,10 @@ export function LeadCalculator() {
                       value={emailsPerDay}
                       onChange={(e) => setEmailsPerDay(Number(e.target.value))}
                       className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                      aria-valuemin={10}
+                      aria-valuemax={300}
+                      aria-valuenow={emailsPerDay}
+                      aria-label={`E-Mails pro Tag: ${emailsPerDay}`}
                     />
                     <div className="flex justify-between text-sm text-gray-500 mt-2">
                       <span>10/Tag</span>

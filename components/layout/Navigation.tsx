@@ -54,10 +54,11 @@ export function Navigation() {
               <Image
                 src="/logo.png"
                 alt="Brivaro Logo"
-                width={360}
-                height={120}
+                width={180}
+                height={60}
                 priority
                 className="h-24 w-auto"
+                sizes="(max-width: 768px) 150px, 180px"
               />
             </motion.div>
           </Link>
@@ -90,7 +91,7 @@ export function Navigation() {
               transition={{ delay: 0.6 }}
             >
               <Button asChild size="sm">
-                <Link href="#preise">Jetzt starten</Link>
+                <Link href="#preise" aria-label="Jetzt starten - Zu den Preisen springen">Jetzt starten</Link>
               </Button>
             </motion.div>
           </div>
@@ -132,7 +133,7 @@ export function Navigation() {
                 ))}
                 <div className="pt-4">
                   <Button className="w-full" asChild>
-                    <Link href="#preise">Jetzt starten</Link>
+                    <Link href="#preise" aria-label="Jetzt starten - Zu den Preisen">Jetzt starten</Link>
                   </Button>
                 </div>
               </div>

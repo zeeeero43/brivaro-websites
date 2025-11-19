@@ -161,7 +161,7 @@ export function CaseStudies() {
               Bereit, ähnliche Ergebnisse zu erzielen?
             </p>
             <Button size="lg" className="text-lg px-8 py-6" asChild>
-              <a href="#preise">Jetzt starten</a>
+              <a href="#preise" aria-label="Jetzt starten - Ähnliche Ergebnisse erzielen">Jetzt starten</a>
             </Button>
           </div>
         </ScrollReveal>

@@ -106,9 +106,12 @@ html {
   scrollbar-width: none;
 }
 
-/* Primary text color */
+/* Primary gradient text */
 .gradient-text {
-  color: hsl(var(--primary));
+  background: linear-gradient(135deg, #40A4F1 0%, #3094E1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Animated gradient background */

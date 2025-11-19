@@ -92,6 +92,8 @@ export function Pricing() {
                 onClick={() => setIsAnnual(!isAnnual)}
                 className="relative w-16 h-8 bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 style={{ backgroundColor: isAnnual ? 'rgb(99, 102, 241)' : 'rgb(229, 231, 235)' }}
+                aria-label="Zwischen monatlicher und jährlicher Zahlung wechseln"
+                aria-pressed={isAnnual}
               >
                 <motion.div
                   className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"

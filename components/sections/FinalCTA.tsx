@@ -66,6 +66,7 @@ export function FinalCTA() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  aria-label="Jetzt starten - Zur Brivaro App"
                 >
                   Jetzt starten
                   <ArrowRight className="ml-2 h-5 w-5 inline group-hover:translate-x-1 transition-transform" />
