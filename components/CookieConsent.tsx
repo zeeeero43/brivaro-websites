@@ -4,8 +4,20 @@ import { useEffect } from 'react'
 import * as CookieConsent from 'vanilla-cookieconsent'
 import 'vanilla-cookieconsent/dist/cookieconsent.css'
 
+// Declare global type for window.CookieConsent
+declare global {
+  interface Window {
+    CookieConsent: typeof CookieConsent
+  }
+}
+
 export function CookieConsentBanner() {
   useEffect(() => {
+    // Make CookieConsent available globally
+    if (typeof window !== 'undefined') {
+      window.CookieConsent = CookieConsent
+    }
+
     CookieConsent.run({
       // Kategorien
       categories: {

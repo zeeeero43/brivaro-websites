@@ -129,7 +129,7 @@ export function HowItWorks() {
 
                                     {/* Pulse Effect */}
                                     <motion.div
-                                      className="absolute top-[18px] w-5 h-5 bg-primary rounded-full"
+                                      className="absolute top-[22px] w-5 h-5 bg-primary rounded-full"
                                       animate={{
                                         scale: [1, 2.5],
                                         opacity: [0.6, 0],
@@ -262,7 +262,7 @@ export function HowItWorks() {
                             </div>
 
                             {/* Score Sidebar */}
-                            <div className="w-40 space-y-3">
+                            <div className="w-32 space-y-2">
                               {[
                                 { label: "SEO", score: 45, color: "red" },
                                 { label: "Speed", score: 60, color: "yellow" },
@@ -270,16 +270,16 @@ export function HowItWorks() {
                               ].map((metric, i) => (
                                 <motion.div
                                   key={i}
-                                  className="bg-white rounded-lg border-2 border-gray-200 p-3"
+                                  className="bg-white rounded-lg border-2 border-gray-200 p-2"
                                   initial={{ opacity: 0, x: 20 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: 0.5 + i * 0.2 }}
                                   whileHover={{ scale: 1.05 }}
                                 >
                                   <div className="text-xs text-gray-500 mb-1">{metric.label}</div>
-                                  <div className="flex items-center gap-2">
+                                  <div className="flex items-center gap-1">
                                     <motion.div
-                                      className={`text-2xl font-bold ${
+                                      className={`text-xl font-bold ${
                                         metric.color === "red" ? "text-red-500" : metric.color === "yellow" ? "text-yellow-500" : "text-green-500"
                                       }`}
                                       initial={{ opacity: 0 }}
@@ -291,7 +291,7 @@ export function HowItWorks() {
                                     <div className="text-xs text-gray-400">/100</div>
                                   </div>
                                   {/* Progress Bar */}
-                                  <div className="mt-2 h-1 bg-gray-100 rounded overflow-hidden">
+                                  <div className="mt-1 h-1 bg-gray-100 rounded overflow-hidden">
                                     <motion.div
                                       className={`h-full ${
                                         metric.color === "red" ? "bg-red-500" : metric.color === "yellow" ? "bg-yellow-500" : "bg-green-500"
@@ -366,25 +366,6 @@ export function HowItWorks() {
                                     />
                                   ))}
                                 </div>
-
-                                {/* Flying envelope effect */}
-                                {i === 0 && (
-                                  <motion.div
-                                    className="absolute right-4 top-4"
-                                    animate={{
-                                      x: [0, 30, 30],
-                                      y: [0, -10, -10],
-                                      opacity: [0, 1, 0],
-                                    }}
-                                    transition={{
-                                      duration: 2,
-                                      repeat: Infinity,
-                                      repeatDelay: 3,
-                                    }}
-                                  >
-                                    <Mail className="h-4 w-4 text-primary" />
-                                  </motion.div>
-                                )}
                               </motion.div>
                             ))}
                           </div>

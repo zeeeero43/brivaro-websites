@@ -23,7 +23,6 @@ export function Navigation() {
 
   const navLinks = [
     { href: "#demo-video", label: "Demo" },
-    { href: "#features", label: "Features" },
     { href: "#roi-rechner", label: "ROI-Rechner" },
     { href: "#preise", label: "Preise" },
     { href: "#faq", label: "FAQ" },

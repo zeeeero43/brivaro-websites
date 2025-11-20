@@ -84,14 +84,29 @@ export function DemoVideo() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
               {/* Stats overlay */}
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white">
-                <div>
-                  <div className="text-sm opacity-80">Bereits angesehen von</div>
-                  <div className="text-2xl font-bold">2.500+ Agenturen</div>
+              <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6 text-white">
+                {/* Desktop: Side by side */}
+                <div className="hidden md:flex items-center justify-between">
+                  <div>
+                    <div className="text-sm opacity-80">Bereits angesehen von</div>
+                    <div className="text-2xl font-bold">2.500+ Agenturen</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm opacity-80">Durchschnittliche Bewertung</div>
+                    <div className="text-2xl font-bold">4.9/5.0 ⭐</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm opacity-80">Durchschnittliche Bewertung</div>
-                  <div className="text-2xl font-bold">4.9/5.0 ⭐</div>
+
+                {/* Mobile: Compact horizontal */}
+                <div className="md:hidden flex items-center justify-between text-xs">
+                  <div>
+                    <div className="opacity-80 mb-0.5">Angesehen von</div>
+                    <div className="font-bold">2.500+ Agenturen</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="opacity-80 mb-0.5">Bewertung</div>
+                    <div className="font-bold">4.9/5.0 ⭐</div>
+                  </div>
                 </div>
               </div>
             </div>

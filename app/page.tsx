@@ -3,7 +3,6 @@ import { ProblemSolution } from "@/components/sections/ProblemSolution"
 import { Stats } from "@/components/sections/Stats"
 import { DemoVideo } from "@/components/sections/DemoVideo"
 import { HowItWorks } from "@/components/sections/HowItWorks"
-import { Features } from "@/components/sections/Features"
 import { CaseStudies } from "@/components/sections/CaseStudies"
 import { Comparison } from "@/components/sections/Comparison"
 import { LeadCalculator } from "@/components/sections/LeadCalculator"
@@ -24,7 +23,6 @@ export default function Home() {
       <Stats />
       <DemoVideo />
       <HowItWorks />
-      <Features />
       <CaseStudies />
       <Comparison />
       <LeadCalculator />

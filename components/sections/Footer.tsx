@@ -3,28 +3,23 @@
 import React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Github, Twitter, Linkedin, Youtube } from "lucide-react"
 
 export function Footer() {
 
   const footerLinks = {
-    product: [
-      { label: "Features", href: "#features" },
-      { label: "Preise", href: "#preise" },
-      { label: "Use Cases", href: "#use-cases" },
-      { label: "Roadmap", href: "#roadmap" },
+    navigation: [
+      { label: "Demo", href: "/#demo-video" },
+      { label: "ROI-Rechner", href: "/#roi-rechner" },
+      { label: "Preise", href: "/#preise" },
     ],
     resources: [
       { label: "Blog", href: "/blog" },
       { label: "Hilfe-Center", href: "/hilfe" },
-      { label: "API-Docs", href: "/api" },
       { label: "Status", href: "/status" },
     ],
     company: [
       { label: "Über uns", href: "/uber-uns" },
       { label: "Karriere", href: "/karriere" },
-      { label: "Presse", href: "/presse" },
-      { label: "Partner", href: "/partner" },
     ],
     legal: [
       { label: "Impressum", href: "/impressum" },
@@ -33,13 +28,6 @@ export function Footer() {
       { label: "Cookies", href: "/cookies" },
     ],
   }
-
-  const socialLinks = [
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-  ]
 
   return (
     <footer className="relative overflow-hidden bg-white border-t border-gray-200">
@@ -61,11 +49,11 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Product Links */}
+          {/* Navigation Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-base">Produkt</h3>
+            <h3 className="font-semibold mb-4 text-base">Navigation</h3>
             <ul className="space-y-3">
-              {footerLinks.product.map((link, index) => (
+              {footerLinks.navigation.map((link, index) => (
                 <li key={index}>
                   <Link
                     href={link.href}
@@ -121,13 +109,29 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm relative group"
-                  >
-                    {link.label}
-                    <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-                  </Link>
+                  {link.label === "Cookies" ? (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        if (typeof window !== 'undefined' && window.CookieConsent) {
+                          window.CookieConsent.showPreferences()
+                        }
+                      }}
+                      type="button"
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm relative group text-left"
+                    >
+                      {link.label}
+                      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm relative group"
+                    >
+                      {link.label}
+                      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -135,28 +139,10 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-white/10 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
             © 2025 Brivaro. Made with ❤️ in Germany.
           </p>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={index}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-10 w-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={social.label}
-              >
-                <social.icon className="h-5 w-5" />
-              </motion.a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

@@ -151,13 +151,14 @@ export default function CookiesPage() {
                 auf den folgenden Button:
               </p>
               <button
-                onClick={() => {
-                  // @ts-ignore - vanilla-cookieconsent global
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
                   if (typeof window !== 'undefined' && window.CookieConsent) {
-                    // @ts-ignore
                     window.CookieConsent.showPreferences()
                   }
                 }}
+                type="button"
                 className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors"
               >
                 Cookie-Einstellungen öffnen

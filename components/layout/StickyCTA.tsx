@@ -40,10 +40,10 @@ export function StickyCTA() {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between gap-4">
-              {/* Left side - Message */}
-              <div className="flex-1 min-w-0">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between gap-2">
+              {/* Left side - Message (hidden on mobile) */}
+              <div className="hidden sm:flex flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                   <h3 className="font-bold text-lg whitespace-nowrap">
                     Noch nicht überzeugt?
@@ -54,12 +54,19 @@ export function StickyCTA() {
                 </div>
               </div>
 
+              {/* Mobile: Compact message */}
+              <div className="sm:hidden flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-900">
+                  Demo ansehen?
+                </p>
+              </div>
+
               {/* Right side - CTA Buttons */}
-              <div className="flex items-center gap-3">
-                <Button asChild size="lg" className="group whitespace-nowrap">
+              <div className="flex items-center gap-2">
+                <Button asChild className="h-9 px-3 sm:h-11 sm:px-8 group whitespace-nowrap">
                   <a href="#demo-video">
-                    <Play className="mr-2 h-4 w-4" />
-                    Demo ansehen
+                    <Play className="h-4 w-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Demo ansehen</span>
                   </a>
                 </Button>
 
@@ -69,7 +76,7 @@ export function StickyCTA() {
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                   aria-label="Schließen"
                 >
-                  <X className="h-5 w-5 text-gray-500" />
+                  <X className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
                 </button>
               </div>
             </div>

@@ -31,7 +31,7 @@ export function Hero() {
 
           {/* Main Headline */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -43,7 +43,7 @@ export function Hero() {
 
           {/* Subheadline */}
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto px-4 sm:px-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -55,14 +55,14 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <motion.a
               href="#demo-video"
-              className="bg-primary text-white text-lg px-10 py-4 rounded-lg font-semibold shadow-lg inline-block"
+              className="w-full sm:w-auto bg-primary text-white text-base sm:text-lg px-8 sm:px-10 py-4 rounded-lg font-semibold shadow-lg inline-block text-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -71,7 +71,7 @@ export function Hero() {
             </motion.a>
             <motion.a
               href="#preise"
-              className="bg-white border-2 border-gray-300 text-gray-900 text-lg px-10 py-4 rounded-lg font-semibold inline-block"
+              className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-900 text-base sm:text-lg px-8 sm:px-10 py-4 rounded-lg font-semibold inline-block text-center"
               whileHover={{ scale: 1.05, borderColor: "hsl(var(--primary))" }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}

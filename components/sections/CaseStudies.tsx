@@ -9,21 +9,21 @@ import { Button } from "@/components/ui/button"
 export function CaseStudies() {
   const caseStudies = [
     {
-      company: "WebDesign Pro GmbH",
-      industry: "Webentwicklung",
-      location: "München",
+      company: "art.of.media marketing & consulting",
+      industry: "Digitalagentur",
+      location: "Duisburg",
       logo: "/case-studies/logo1.png", // Placeholder
-      challenge: "Manuelles Cold Calling führte zu nur 1-2 Anfragen pro Woche bei 20h Zeitaufwand",
-      solution: "Implementierung von Brivaro für automatisierte Lead-Generierung mit KI-personalisierten E-Mails",
+      challenge: "Als Full-Service Digitalagentur war die manuelle Akquise zeitintensiv. Social Media Kampagnen brachten zwar Reichweite, aber kaum qualifizierte B2B-Leads.",
+      solution: "Implementierung von Brivaro für automatisierte Lead-Generierung mit KI-personalisierten E-Mails speziell für KMUs mit verbesserungsbedürftigen Websites",
       results: [
-        { icon: TrendingUp, label: "Response-Rate", value: "+350%", description: "von 2% auf 9%" },
-        { icon: Users, label: "Neue Leads", value: "180+", description: "in 3 Monaten" },
-        { icon: Euro, label: "Umsatz", value: "+85.000€", description: "zusätzlicher MRR" },
-        { icon: Clock, label: "Zeitersparnis", value: "18h/Woche", description: "mehr Zeit für Projekte" },
+        { icon: TrendingUp, label: "Lead-Qualität", value: "+280%", description: "mehr qualifizierte Anfragen" },
+        { icon: Users, label: "Neue Kunden", value: "45+", description: "in 4 Monaten" },
+        { icon: Euro, label: "Projektvolumen", value: "+120.000€", description: "zusätzlicher Umsatz" },
+        { icon: Clock, label: "Zeitersparnis", value: "15h/Woche", description: "für kreative Arbeit" },
       ],
-      testimonial: "Brivaro hat unsere Akquise komplett transformiert. Statt 20 Stunden pro Woche für manuelle Kaltakquise zu investieren, bekommen wir jetzt konstant 2-3 qualifizierte Anfragen täglich - vollautomatisch.",
-      author: "Max Mustermann",
-      role: "Geschäftsführer",
+      testimonial: "Als Digitalagentur waren wir skeptisch, ob automatisierte Lead-Generierung zu unserer kreativen Arbeitsweise passt. Brivaro hat uns eines Besseren belehrt - die KI-Website-Analyse findet genau die Unternehmen, die unsere Expertise brauchen. Die Leads sind hochqualifiziert und die Gespräche starten auf Augenhöhe.",
+      author: "art.of.media Team",
+      role: "Geschäftsführung",
       gradient: "from-blue-500 to-cyan-500",
     },
     {
@@ -78,22 +78,14 @@ export function CaseStudies() {
               >
                 {/* Header */}
                 <div className={`bg-gradient-to-br ${study.gradient} p-8 text-white`}>
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                          <span className="text-2xl font-bold">{study.company.charAt(0)}</span>
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-bold">{study.company}</h3>
-                          <p className="text-white/80">{study.industry} • {study.location}</p>
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <span className="text-2xl font-bold">{study.company.charAt(0)}</span>
                     </div>
-                    <Button variant="secondary" size="sm" className="whitespace-nowrap">
-                      Vollständige Story lesen
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    <div>
+                      <h3 className="text-2xl font-bold">{study.company}</h3>
+                      <p className="text-white/80">{study.industry} • {study.location}</p>
+                    </div>
                   </div>
                 </div>
 

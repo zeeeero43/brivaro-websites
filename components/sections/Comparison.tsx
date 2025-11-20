@@ -52,7 +52,7 @@ export function Comparison() {
     } else if (value === false) {
       return <X className="h-5 w-5 text-gray-300 mx-auto" />
     } else {
-      return <span className="text-xs text-gray-500">{value}</span>
+      return <span className="text-xs text-gray-500 text-center block">{value}</span>
     }
   }
 
@@ -68,18 +68,89 @@ export function Comparison() {
               <Sparkles className="h-5 w-5 text-primary" />
               <span className="font-semibold">Warum Brivaro?</span>
             </motion.div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 px-4">
               Der <span className="gradient-text">klare Unterschied</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               Andere Tools lösen nur Teilprobleme. Brivaro ist die All-in-One Lösung, die wirklich auf Autopilot läuft.
             </p>
           </div>
         </ScrollReveal>
 
-        {/* Comparison Table */}
+        {/* Mobile Version - Card Layout */}
+        <div className="md:hidden space-y-6">
+          {comparisons.map((category, catIndex) => (
+            <ScrollReveal key={catIndex} delay={catIndex * 0.1}>
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-4">
+                  <h3 className="font-bold text-lg">{category.category}</h3>
+                </div>
+
+                {category.features.map((feature, featIndex) => (
+                  <div key={featIndex} className="border-b border-gray-100 last:border-b-0 p-4">
+                    <div className="font-medium text-gray-900 mb-3">{feature.name}</div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600 mb-2 font-semibold">Brivaro</div>
+                        <div className="bg-primary/5 py-2 rounded-lg">
+                          {renderValue(feature.brivaro)}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600 mb-2 font-semibold">Manuell</div>
+                        <div className="py-2">
+                          {renderValue(feature.manual)}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-600 mb-2 font-semibold">Andere</div>
+                        <div className="py-2">
+                          {renderValue(feature.other)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollReveal>
+          ))}
+
+          {/* Mobile Pricing */}
+          <ScrollReveal delay={0.5}>
+            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl border-2 border-primary/20 p-6">
+              <h3 className="font-bold text-gray-900 mb-4 text-center">Monatliche Kosten</h3>
+              <div className="space-y-4">
+                <div className="bg-white rounded-xl p-4 border-2 border-primary">
+                  <div className="text-center">
+                    <div className="font-bold text-primary mb-1">Brivaro</div>
+                    <div className="text-3xl font-bold gradient-text mb-1">399€</div>
+                    <div className="text-sm text-gray-600">+ 0h Zeit</div>
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl p-4">
+                  <div className="text-center">
+                    <div className="font-bold text-gray-700 mb-1">Manuell</div>
+                    <div className="text-3xl font-bold text-gray-700 mb-1">0€</div>
+                    <div className="text-sm text-gray-600">+ 80h Zeit</div>
+                    <div className="text-xs text-gray-500 mt-1">≈ 4.000€ Kosten</div>
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl p-4">
+                  <div className="text-center">
+                    <div className="font-bold text-gray-700 mb-1">Andere Tools</div>
+                    <div className="text-3xl font-bold text-gray-700 mb-1">200€</div>
+                    <div className="text-sm text-gray-600">+ 20h Zeit</div>
+                    <div className="text-xs text-gray-500 mt-1">≈ 1.200€ Kosten</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Desktop Version - Table Layout */}
         <ScrollReveal delay={0.2}>
-          <div className="max-w-5xl mx-auto">
+          <div className="hidden md:block max-w-5xl mx-auto">
             {/* Header */}
             <div className="bg-white rounded-t-2xl border border-gray-200 p-6 grid grid-cols-4 gap-4 items-center">
               <div className="text-sm font-semibold text-gray-500 uppercase">Feature</div>
@@ -167,11 +238,11 @@ export function Comparison() {
 
         {/* Bottom CTA */}
         <ScrollReveal delay={0.6}>
-          <div className="text-center mt-12">
-            <p className="text-lg text-gray-700 mb-2 max-w-3xl mx-auto">
+          <div className="text-center mt-12 px-4">
+            <p className="text-base md:text-lg text-gray-700 mb-2 max-w-3xl mx-auto">
               <strong>Das Problem:</strong> Manuelle Akquise kostet Zeit. Andere Tools lösen nur Teilprobleme und brauchen ständig Aufmerksamkeit.
             </p>
-            <p className="text-xl font-semibold text-primary mt-4">
+            <p className="text-lg md:text-xl font-semibold text-primary mt-4">
               Brivaro läuft komplett auf Autopilot – während du an deinen Projekten arbeitest.
             </p>
           </div>

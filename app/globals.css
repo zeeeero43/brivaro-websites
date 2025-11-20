@@ -235,3 +235,53 @@ html {
 .cursor-none * {
   cursor: none !important;
 }
+
+/* Blog Content Styles */
+.prose .code-block {
+  @apply bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto my-6;
+}
+
+.prose .code-block code {
+  @apply text-sm leading-relaxed font-mono;
+}
+
+.prose code:not(.code-block code) {
+  @apply bg-gray-100 text-primary px-2 py-1 rounded text-sm font-mono;
+}
+
+.prose ul {
+  @apply list-disc pl-6 my-6 space-y-3;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 my-6 space-y-3;
+}
+
+.prose ul li::marker,
+.prose ol li::marker {
+  @apply text-primary font-bold;
+}
+
+.prose h2 {
+  @apply text-3xl font-bold text-gray-900 mt-12 mb-4 leading-tight scroll-mt-24;
+}
+
+.prose h3 {
+  @apply text-2xl font-bold text-gray-900 mt-8 mb-3 scroll-mt-24;
+}
+
+.prose p {
+  @apply text-gray-700 leading-relaxed mb-4 text-lg;
+}
+
+.prose a {
+  @apply text-primary font-medium no-underline hover:underline;
+}
+
+.prose strong {
+  @apply text-gray-900 font-semibold;
+}
+
+.prose em {
+  @apply italic;
+}
