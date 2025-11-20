@@ -1,8 +1,7 @@
 "use client"
 
-import type { Metadata } from "next"
 import Link from "next/link"
-import { Cookie, Check, X } from "lucide-react"
+import { Cookie, Check } from "lucide-react"
 
 export default function CookiesPage() {
   return (

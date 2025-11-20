@@ -101,7 +101,7 @@ export function CookieConsentBanner() {
         }
       },
 
-      onChange: ({ changedCategories, changedServices }) => {
+      onChange: ({ changedCategories }) => {
         if (changedCategories.includes('analytics')) {
           if (CookieConsent.acceptedCategory('analytics')) {
             console.log('Analytics enabled')

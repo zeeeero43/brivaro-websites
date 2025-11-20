@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { Briefcase, MapPin, Euro, Clock, TrendingUp, Users, Zap, Heart, Coffee, Laptop, GraduationCap, Calendar } from "lucide-react"
+import { Briefcase, MapPin, Euro, Clock, TrendingUp, Users, Zap, Heart, Laptop, GraduationCap, Calendar } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 
 export const metadata: Metadata = {

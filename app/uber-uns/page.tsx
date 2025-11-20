@@ -1,9 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Calendar, Target, TrendingUp, Users, Award, Heart, Zap, Shield } from "lucide-react"
+import { Target, TrendingUp, Users, Award, Heart, Zap, Shield } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { AnimatedCounter } from "@/components/animations/AnimatedCounter"
-import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Über Uns - Die Geschichte hinter Brivaro",
@@ -121,8 +120,8 @@ export default function UberUnsPage() {
               </h2>
               <div className="prose prose-lg max-w-none">
                 <p className="text-gray-700 text-lg leading-relaxed mb-4">
-                  "Ich führte eine erfolgreiche Web-Agentur. Technisch waren wir top. Unsere Projekte liefen hervorragend.
-                  Aber ein Problem plagte mich täglich: <strong>Wo kommen die nächsten Kunden her?</strong>"
+                  &bdquo;Ich führte eine erfolgreiche Web-Agentur. Technisch waren wir top. Unsere Projekte liefen hervorragend.
+                  Aber ein Problem plagte mich täglich: <strong>Wo kommen die nächsten Kunden her?</strong>&ldquo;
                 </p>
                 <p className="text-gray-700 text-lg leading-relaxed mb-4">
                   Jeden Monat verbrachte ich 80+ Stunden mit manueller Lead-Akquise. LinkedIn durchforsten.

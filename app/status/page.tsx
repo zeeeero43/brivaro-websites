@@ -34,7 +34,6 @@ interface StatusData {
 export default function StatusPage() {
   const [statusData, setStatusData] = useState<StatusData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [lastChecked, setLastChecked] = useState<Date>(new Date())
 
   const fetchStatus = async () => {
@@ -70,7 +69,6 @@ export default function StatusPage() {
       }
 
       setStatusData(transformedData)
-      setError(null)
       setLastChecked(new Date())
     } catch (err) {
       // Set outage status instead of showing error UI
@@ -96,7 +94,6 @@ export default function StatusPage() {
         uptime: 0,
         lastUpdated: new Date().toISOString(),
       })
-      setError(null) // Don't show error banner
       console.error("Status fetch error:", err)
     } finally {
       setLoading(false)

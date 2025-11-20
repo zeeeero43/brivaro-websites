@@ -1,6 +1,6 @@
 // Professioneller Markdown zu HTML Parser
 export function parseMarkdown(markdown: string): string {
-  let html = markdown
+  const html = markdown
 
   // Escape HTML
   const escapeHtml = (text: string) => {
@@ -18,7 +18,7 @@ export function parseMarkdown(markdown: string): string {
   let listType: 'ul' | 'ol' | null = null
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i]
+    const line = lines[i]
 
     // Code Blocks
     if (line.trim().startsWith('```')) {

@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { ArrowRight, TrendingUp, Users, Euro, Clock, Star } from "lucide-react"
+import { TrendingUp, Users, Euro, Clock, Star } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"

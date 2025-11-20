@@ -59,7 +59,7 @@ export default function DatenschutzPage() {
             <h3 className="text-xl font-semibold mb-3">3.1 Wer ist verantwortlich für die Datenerfassung?</h3>
             <p className="mb-4">
               Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber.
-              Dessen Kontaktdaten können Sie dem Abschnitt „Verantwortlicher" in dieser
+              Dessen Kontaktdaten können Sie dem Abschnitt &bdquo;Verantwortlicher&ldquo; in dieser
               Datenschutzerklärung entnehmen.
             </p>
 
@@ -205,7 +205,7 @@ export default function DatenschutzPage() {
             </div>
             <p className="mb-4">
               Diese Website kann Google Analytics 4 verwenden, einen Webanalysedienst der
-              Google Ireland Limited („Google"), Gordon House, Barrow Street, Dublin 4, Irland.
+              Google Ireland Limited (&bdquo;Google&ldquo;), Gordon House, Barrow Street, Dublin 4, Irland.
             </p>
             <p className="mb-4">
               <strong>Umfang der Verarbeitung:</strong> Google Analytics verwendet Cookies,
@@ -259,7 +259,7 @@ export default function DatenschutzPage() {
             </p>
             <p className="mb-4">
               Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers
-              von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+              von &bdquo;http://&ldquo; auf &bdquo;https://&ldquo; wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
             </p>
             <p className="mb-4">
               Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können die Daten, die Sie
