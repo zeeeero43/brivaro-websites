@@ -144,9 +144,9 @@ export function Pricing() {
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                     <p className="text-sm text-gray-600 mb-6">{plan.description}</p>
-                    <div className="flex flex-col items-center gap-1 mb-2">
+                    <div className="flex flex-col items-center gap-1 mb-2 min-h-[60px]">
                       {plan.priceMonthly === "Auf Anfrage" ? (
-                        <span className="text-4xl font-bold gradient-text">{plan.priceMonthly}</span>
+                        <span className="text-4xl font-bold gradient-text leading-tight">{plan.priceMonthly}</span>
                       ) : (
                         <>
                           <div className="flex items-end justify-center gap-1">

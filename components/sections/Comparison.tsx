@@ -20,19 +20,17 @@ export function Comparison() {
       category: "E-Mail Automation",
       features: [
         { name: "KI-personalisierte E-Mails", brivaro: true, manual: false, other: "templates" },
+        { name: "Personalisierte Ansprache", brivaro: true, manual: false, other: "begrenzt" },
         { name: "Website-Analyse Integration", brivaro: true, manual: false, other: false },
         { name: "3-Stufen Follow-up", brivaro: true, manual: "teilweise", other: true },
         { name: "Optimale technische Einstellung", brivaro: true, manual: false, other: true },
-        { name: "A/B Testing", brivaro: true, manual: false, other: true },
       ],
     },
     {
       category: "Analytics & ROI",
       features: [
         { name: "Echtzeit-Dashboard", brivaro: true, manual: false, other: true },
-        { name: "Conversion-Funnel", brivaro: true, manual: false, other: "basic" },
         { name: "Response-Tracking", brivaro: true, manual: "excel", other: true },
-        { name: "ROI pro Kampagne", brivaro: true, manual: false, other: "begrenzt" },
       ],
     },
     {
@@ -40,7 +38,6 @@ export function Comparison() {
       features: [
         { name: "DSGVO-konform", brivaro: true, manual: "manuell", other: "teilweise" },
         { name: "Deutsche Server", brivaro: true, manual: "egal", other: false },
-        { name: "Priority Support", brivaro: true, manual: false, other: "paid" },
         { name: "Onboarding & Training", brivaro: true, manual: false, other: "extra" },
       ],
     },

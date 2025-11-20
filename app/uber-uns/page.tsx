@@ -48,13 +48,13 @@ export default function UberUnsPage() {
       icon: TrendingUp,
     },
     {
-      year: "2024",
+      year: "2025",
       title: "Offizieller Launch",
       description: "Brivaro ging live. Innerhalb von 6 Monaten gewannen wir 200+ Web-Agenturen als Kunden.",
       icon: Award,
     },
     {
-      year: "2025",
+      year: "2026",
       title: "Die Zukunft",
       description: "500+ zufriedene Kunden, 500.000+ generierte Leads. Wir skalieren und planen unsere Series A Finanzierung.",
       icon: TrendingUp,
@@ -109,25 +109,6 @@ export default function UberUnsPage() {
               Was als persönliche Frustration begann, ist heute die führende Lead-Generation-Lösung
               für Web-Agenturen in Deutschland. Hier ist unsere Journey.
             </p>
-          </div>
-        </ScrollReveal>
-
-        {/* Founder Image Placeholder */}
-        <ScrollReveal delay={0.1}>
-          <div className="max-w-4xl mx-auto mb-20">
-            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <Users className="h-20 w-20 text-primary mx-auto mb-4" />
-                  <p className="text-gray-600 font-medium">
-                    [Platzhalter für Gründer-Foto]
-                  </p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Kaan Kaya, Gründer & CEO von Brivaro
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </ScrollReveal>
 

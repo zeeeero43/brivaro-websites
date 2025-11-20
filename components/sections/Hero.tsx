@@ -49,7 +49,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <span className="text-secondary font-semibold">80% weniger Zeitaufwand.</span>{" "}
-            <span className="text-primary font-semibold">3x höhere Response-Rate.</span>{" "}
+            <span className="text-primary font-semibold">3x höhere Response-Rate.</span>
+            <br />
             <span className="text-foreground font-semibold">100% DSGVO-konform.</span>
           </motion.p>
 
