@@ -4,7 +4,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Calendar, Clock, ArrowLeft, Share2, Facebook, Twitter, Linkedin, Tag, ChevronRight } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import { parseMarkdown, extractHeadings } from "@/lib/markdown"
 import Image from "next/image"
 
@@ -173,8 +173,9 @@ Buche jetzt dein kostenloses Onboarding-Gespräch oder rechne mit unserem ROI-Re
   },
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts[params.slug]
+export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params)
+  const post = blogPosts[slug]
   const [activeHeading, setActiveHeading] = useState<string>('')
 
   // 404 wenn Post nicht existiert
