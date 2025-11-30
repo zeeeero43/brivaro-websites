@@ -14,8 +14,8 @@ export function Pricing() {
   const plans = [
     {
       name: "Starter",
-      priceMonthly: "399",
-      priceAnnual: "319",
+      priceMonthly: "299",
+      priceAnnual: "219",
       description: "Perfekt für kleine Agenturen die gerade erst mit automatisierter Kundengewinnung starten.",
       features: [
         "1500 Leads pro Monat",
@@ -29,8 +29,8 @@ export function Pricing() {
     },
     {
       name: "Professional",
-      priceMonthly: "699",
-      priceAnnual: "559",
+      priceMonthly: "599",
+      priceAnnual: "459",
       description: "Ideal für wachsende Agenturen die ihre Kundengewinnung skalieren und optimieren möchten.",
       features: [
         "Alles aus Starter und:",

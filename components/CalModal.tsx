@@ -13,16 +13,18 @@ interface CalModalProps {
 
 export function CalModal({ isOpen, onClose }: CalModalProps) {
   useEffect(() => {
-    (async function () {
-      const cal = await getCalApi()
-      cal("ui", {
-        theme: "light",
-        styles: { branding: { brandColor: "#40A4F1" } },
-        hideEventTypeDetails: false,
-        layout: "month_view",
-      })
-    })()
-  }, [])
+    if (isOpen) {
+      (async function () {
+        const cal = await getCalApi()
+        cal("ui", {
+          theme: "light",
+          styles: { branding: { brandColor: "#40A4F1" } },
+          hideEventTypeDetails: false,
+          layout: "month_view",
+        })
+      })()
+    }
+  }, [isOpen])
 
   return (
     <AnimatePresence>
@@ -39,7 +41,7 @@ export function CalModal({ isOpen, onClose }: CalModalProps) {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", duration: 0.3 }}
-            className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-[95vw] md:max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -52,10 +54,10 @@ export function CalModal({ isOpen, onClose }: CalModalProps) {
             </button>
 
             {/* Cal.com Embed */}
-            <div className="w-full h-[600px] md:h-[700px] overflow-auto">
+            <div className="w-full h-[70vh] md:h-[600px]">
               <Cal
                 calLink="brivaro/30min"
-                style={{ width: "100%", height: "100%", overflow: "scroll" }}
+                style={{ width: "100%", height: "100%", overflow: "auto" }}
                 config={{ layout: "month_view" }}
               />
             </div>

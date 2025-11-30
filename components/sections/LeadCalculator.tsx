@@ -23,7 +23,7 @@ export function LeadCalculator() {
     if (emailsPerMonth <= 1500) {
       return {
         name: "Starter",
-        price: 399,
+        price: 299,
         monthlyLeads: "1500 Leads",
         monthlyEmails: "1.500 E-Mails",
         campaigns: "3 Kampagnen"
@@ -31,7 +31,7 @@ export function LeadCalculator() {
     } else if (emailsPerMonth <= 5000) {
       return {
         name: "Professional",
-        price: 699,
+        price: 599,
         monthlyLeads: "5000 Leads",
         monthlyEmails: "5.000 E-Mails",
         campaigns: "6 Kampagnen"

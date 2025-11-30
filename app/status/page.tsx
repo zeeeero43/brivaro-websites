@@ -211,23 +211,7 @@ export default function StatusPage() {
             >
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <StatusIcon className={`h-16 w-16 ${statusColors.icon}`} />
-                    {overallStatus === "operational" && (
-                      <motion.div
-                        className="absolute -top-1 -right-1 h-4 w-4 bg-green-500 rounded-full"
-                        animate={{
-                          scale: [1, 1.2, 1],
-                          opacity: [1, 0.8, 1],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        }}
-                      />
-                    )}
-                  </div>
+                  <StatusIcon className={`h-16 w-16 ${statusColors.icon}`} />
                   <div>
                     <h2 className={`text-3xl md:text-4xl font-bold ${statusColors.text}`}>
                       {getStatusText(overallStatus)}

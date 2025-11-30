@@ -120,7 +120,7 @@ export function Comparison() {
                 <div className="bg-white rounded-xl p-4 border-2 border-primary">
                   <div className="text-center">
                     <div className="font-bold text-primary mb-1">Brivaro</div>
-                    <div className="text-3xl font-bold gradient-text mb-1">399€</div>
+                    <div className="text-3xl font-bold gradient-text mb-1">299€</div>
                     <div className="text-sm text-gray-600">+ 0h Zeit</div>
                   </div>
                 </div>
@@ -215,7 +215,7 @@ export function Comparison() {
                   <div className="text-xs text-gray-600">inkl. Zeitaufwand</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold gradient-text mb-1">399€</div>
+                  <div className="text-3xl font-bold gradient-text mb-1">299€</div>
                   <div className="text-xs text-gray-600">+ 0h Zeit</div>
                 </div>
                 <div className="text-center">

@@ -12,11 +12,11 @@ export function StructuredData() {
       {
         "@type": "Offer",
         "name": "Starter",
-        "price": "399",
+        "price": "299",
         "priceCurrency": "EUR",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "399.00",
+          "price": "299.00",
           "priceCurrency": "EUR",
           "billingDuration": "P1M",
           "billingIncrement": 1,
@@ -25,11 +25,11 @@ export function StructuredData() {
       {
         "@type": "Offer",
         "name": "Professional",
-        "price": "699",
+        "price": "599",
         "priceCurrency": "EUR",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "699.00",
+          "price": "599.00",
           "priceCurrency": "EUR",
           "billingDuration": "P1M",
           "billingIncrement": 1,
