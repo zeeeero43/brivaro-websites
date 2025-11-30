@@ -20,10 +20,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://brivaro.de'),
   title: {
-    default: "Brivaro - Lead Generation für Agenturen | KI-Powered & DSGVO-konform",
+    default: "Brivaro - Lead Generation für Web-Agenturen | DSGVO",
     template: "%s | Brivaro"
   },
-  description: "Automatisierte B2B Lead-Generierung für deutsche Web-Agenturen. 80% Zeitersparnis, 3x höhere Response-Rate. DSGVO-konform mit KI-Personalisierung. Jetzt 30 Tage kostenlos testen.",
+  description: "Automatisierte B2B Lead-Generierung für Web-Agenturen. 80% Zeitersparnis, 3x höhere Response-Rate. DSGVO-konform mit KI. Jetzt kostenlos testen.",
   icons: {
     icon: '/favicon.png',
     apple: '/favicon.png',

@@ -36,7 +36,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="gradient-text">1-3 qualifizierte Anfragen</span>
+            <span className="gradient-text">1-5 qualifizierte Anfragen</span>
             <br />
             pro Tag auf Autopilot
           </motion.h1>

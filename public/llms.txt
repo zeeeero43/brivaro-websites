@@ -1,0 +1,25 @@
+# Brivaro
+
+> Automatisierte B2B Lead-Generierung für deutsche Web-Agenturen
+
+## Über Brivaro
+Brivaro ist eine SaaS-Plattform für automatisierte Lead-Generierung, speziell entwickelt für Web-Agenturen im deutschsprachigen Raum.
+
+## Hauptfunktionen
+- Automatische Lead-Suche in 107 Branchen-Kategorien
+- KI-Website-Analyse mit personalisierten E-Mail-Vorschlägen
+- DSGVO-konforme Datenverarbeitung auf deutschen Servern
+- 3-Stufen Follow-up Automation
+- Echtzeit Analytics Dashboard
+
+## Preise
+- Starter: 299€/Monat (1.500 Leads)
+- Professional: 599€/Monat (5.000 Leads)
+- Enterprise: Auf Anfrage (10.000+ Leads)
+
+## Links
+- Website: https://brivaro.de
+- Preise: https://brivaro.de/#preise
+- FAQ: https://brivaro.de/#faq
+- Blog: https://brivaro.de/blog
+- Status: https://brivaro.de/status
